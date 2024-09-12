@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "448122662710",
+    "project_id": "sas-wl03",
+    "storage_bucket": "sas-wl03.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:448122662710:android:40628fb71d3160b9078d97",
+        "android_client_info": {
+          "package_name": "com.wlghost.sas"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBc5D1IuV8c0ujSrFq6uBbrTCDhljxaeU4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
