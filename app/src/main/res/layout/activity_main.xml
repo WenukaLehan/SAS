@@ -18,7 +18,10 @@
             android:layout_height="wrap_content"
             android:background="#FF6E6E"
             android:orientation="horizontal"
-            android:padding="16dp">
+            android:padding="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <!-- Menu icon -->
             <ImageView
@@ -32,10 +35,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginStart="16dp"
                 android:text="Home"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp"
-                android:layout_marginStart="16dp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -44,9 +47,11 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@id/menu_icon"
+            android:padding="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:padding="16dp">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/menu_icon">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -65,10 +70,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginTop="16dp"
                     android:text="Welcome!"
                     android:textSize="24sp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="16dp" />
+                    android:textStyle="bold" />
 
                 <!-- See More Button -->
                 <Button
@@ -76,42 +81,43 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginTop="8dp"
                     android:backgroundTint="#FF6E6E"
                     android:text="SEE MORE"
-                    android:textColor="#FFFFFF"
-                    android:layout_marginTop="8dp" />
+                    android:textColor="#FFFFFF" />
 
                 <!-- Vision Section -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
                     android:text="Vision"
                     android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="16dp" />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:text="To be recognized as a minority institution par excellence with secular perspective imparting value based education to create socially responsible citizens to the nation."
-                    android:textSize="16sp"
-                    android:layout_marginTop="8dp" />
+                    android:textSize="16sp" />
 
                 <!-- Mission Section -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Mission"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="16dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Mission"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:text="To promote education for minority community with emphasis on girls’ education and extend the same to other communities."
-                    android:textSize="16sp"
-                    android:layout_marginTop="8dp" />
+                    android:textSize="16sp" />
             </LinearLayout>
         </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
