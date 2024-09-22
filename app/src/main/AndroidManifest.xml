@@ -13,6 +13,39 @@
         android:theme="@style/Theme.SAS"
         tools:targetApi="31">
         <activity
+            android:name=".activity_attendance_parent"
+            android:exported="false" />
+        <activity
+            android:name=".activity_semester"
+            android:exported="false" />
+        <activity
+            android:name=".activity_parent_viewreports"
+            android:exported="false" />
+        <activity
+            android:name=".activity_parent_dashboard"
+            android:exported="false" />
+        <activity
+            android:name=".activity_choosechild"
+            android:exported="false" />
+        <activity
+            android:name=".activity_mysubjects"
+            android:exported="false" />
+        <activity
+            android:name=".activity_attendance"
+            android:exported="false" />
+        <activity
+            android:name=".activity_announcements"
+            android:exported="false" />
+        <activity
+            android:name=".activity_view_marks"
+            android:exported="false" />
+        <activity
+            android:name=".activity_teacher_class"
+            android:exported="false" />
+        <activity
+            android:name=".activity_teacher_dashboard"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
