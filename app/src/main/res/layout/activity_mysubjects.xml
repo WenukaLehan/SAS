@@ -185,7 +185,7 @@
         android:layout_marginBottom="10dp"
         android:backgroundTint="@color/white"
         android:padding="7dp"
-        android:text="Upload Mark Sheet"
+        android:text="Upload Mark"
         android:textColor="@color/red"
         android:textSize="21dp"
         app:cornerRadius="50dp"
