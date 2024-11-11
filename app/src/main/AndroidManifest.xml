@@ -13,6 +13,9 @@
         android:theme="@style/Theme.SAS"
         tools:targetApi="31">
         <activity
+            android:name=".login_activity"
+            android:exported="false" />
+        <activity
             android:name=".activity_attendance_parent"
             android:exported="false" />
         <activity
