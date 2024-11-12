@@ -19,6 +19,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -35,7 +36,7 @@ public class login_activity extends AppCompatActivity {
    DocumentReference db = DBCon.getDb();
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
-    Button loginbtn;
+    MaterialButton loginbtn;
     EditText emailEditText, passwordEditText;
     TextView frogot;
 
@@ -95,9 +96,10 @@ public class login_activity extends AppCompatActivity {
         loginbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = emailEditText.getText().toString();
-                String password = passwordEditText.getText().toString();
 
+                String email = emailEditText.getText().toString();
+                String password = "wenuka2003";//passwordEditText.getText().toString();
+                Toast.makeText(login_activity.this, email +" \n "+ password, Toast.LENGTH_SHORT).show();
                 if (email.isEmpty()) {
                     emailEditText.setError("Please enter your email");
                     emailEditText.requestFocus();

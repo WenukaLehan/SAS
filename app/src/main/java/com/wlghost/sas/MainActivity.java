@@ -1,6 +1,7 @@
 package com.wlghost.sas;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -27,10 +28,14 @@ public class MainActivity extends AppCompatActivity {
     private Handler handler;
     private Runnable imageSwitcher;
 
+    private ImageView menuBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        menuBtn = findViewById(R.id.menuIcon);
 
         // Find the ViewPager and Button
         viewPager = findViewById(R.id.imageSlider);
@@ -72,6 +77,14 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         handler.postDelayed(imageSwitcher, 3000);
+
+        menuBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, login_activity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

@@ -43,15 +43,14 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="USERNAME / EMAIL"
+                android:hint="      USERNAME / EMAIL"
                 app:startIconDrawable="@drawable/user_icon_39dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/emailTxt"
-                    android:inputType="textEmailAddress"
-                    android:text="      imash@email.com" />
+                    android:inputType="textEmailAddress"  />
 
             </com.google.android.material.textfield.TextInputLayout>
 
