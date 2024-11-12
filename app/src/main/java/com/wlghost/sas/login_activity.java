@@ -63,7 +63,7 @@ public class login_activity extends AppCompatActivity {
         // If user is already logged in, redirect to MainActivity
         if (sessionManager.isLoggedIn()) {
             if(sessionManager.getUserType().equals("st")) {
-                startActivity(new Intent(login_activity.this, activity_parent_dashboard.class));
+                startActivity(new Intent(login_activity.this, activity_choosechild.class));
                 finish();
             }else {
                 startActivity(new Intent(login_activity.this, activity_teacher_dashboard.class));
@@ -98,7 +98,7 @@ public class login_activity extends AppCompatActivity {
             public void onClick(View v) {
 
                 String email = emailEditText.getText().toString();
-                String password = "wenuka2003";//passwordEditText.getText().toString();
+                String password = passwordEditText.getText().toString();
                 Toast.makeText(login_activity.this, email +" \n "+ password, Toast.LENGTH_SHORT).show();
                 if (email.isEmpty()) {
                     emailEditText.setError("Please enter your email");
@@ -122,24 +122,24 @@ public class login_activity extends AppCompatActivity {
                                             if (taskd.isSuccessful()) {
                                                 if (firebaseUser.isEmailVerified()) {
 
-                                                    getUserData(email, "st", new FirestoreCallback() {
+                                                    getUserData("students",email, "st", new FirestoreCallback() {
                                                         @Override
                                                         public void onCallback(String result) {
                                                             if (result.equals("true")) {
-                                                                startActivity(new Intent(login_activity.this, activity_parent_dashboard.class));
-                                                                finish();
+                                                                startActivity(new Intent(login_activity.this, activity_choosechild.class));
+                                                                //finish();
                                                                 Toast.makeText(login_activity.this, "Login Successful", Toast.LENGTH_SHORT).show();
-                                                                return;
+
 
                                                             }else {
-                                                                getUserData(email, "tc", new FirestoreCallback() {
+                                                                getUserData("teachers",email, "tc", new FirestoreCallback() {
                                                                     @Override
-                                                                    public void onCallback(String result) {
-                                                                        if (result.equals("true")) {
+                                                                    public void onCallback(String result2) {
+                                                                        if (result2.equals("true")) {
                                                                             startActivity(new Intent(login_activity.this, activity_teacher_dashboard.class));
-                                                                            finish();
+                                                                            //finish();
                                                                             Toast.makeText(login_activity.this, "Login Successful", Toast.LENGTH_SHORT).show();
-                                                                            return;
+
 
                                                                         }else {
                                                                             Log.d("Firestore", "Error occurred");
@@ -181,8 +181,8 @@ public class login_activity extends AppCompatActivity {
     }
 
 
-    public void getUserData(String email, String type, final FirestoreCallback callback) {
-        db.collection("students")
+    public void getUserData(String table,String email, String type, final FirestoreCallback callback) {
+        db.collection(table)
                 .whereEqualTo("email", email)
                 .whereEqualTo("type", type)
                 .get()
