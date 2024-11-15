@@ -40,5 +40,15 @@ public class activity_teacher_dashboard extends AppCompatActivity {
             }
         });
 
+        //when user click btnMyClass then activity_teacher_class will open
+        findViewById(R.id.btnMyClass).setOnClickListener(v -> {
+            startActivity(new Intent(activity_teacher_dashboard.this, activity_teacher_class.class));
+        });
+
+        //when user click btnMySubjects then activity_mysubjects will open
+        findViewById(R.id.btnMySubjects).setOnClickListener(v -> {
+            startActivity(new Intent(activity_teacher_dashboard.this, activity_mysubjects.class));
+        });
+
     }
 }

@@ -33,7 +33,8 @@ import com.wlghost.sas.Helper.dbCon;
 public class login_activity extends AppCompatActivity {
 
     dbCon DBCon = new dbCon();
-   DocumentReference db = DBCon.getDb();
+
+    private final DocumentReference db = DBCon.getDb();
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
     MaterialButton loginbtn;
