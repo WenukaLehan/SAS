@@ -125,7 +125,7 @@ public class activity_attendance extends AppCompatActivity {
                             Log.e(TAG, "Error fetching attendance data: ", task.getException());
                         }
 
-                        // Notify the adapter after all data is fetched
+                        // Notify the adapter after all data is fetcheddddddddd
                         if (adapter == null) {
                             adapter = new AttendanceAdapter(attendanceList);
                             recyclerView.setAdapter(adapter);
