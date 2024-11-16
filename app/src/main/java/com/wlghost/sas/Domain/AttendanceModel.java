@@ -1,45 +1,30 @@
 package com.wlghost.sas.Domain;
 
 public class AttendanceModel {
-    private String studentName;
-    private String status;
-    private String intime;
-    private String outtime;
+    private String studentId;
+    private String attendanceStatus;
 
-    public AttendanceModel(String studentName, String status) {
-        this.studentName = studentName;
-        this.status = status;
+    // Constructor
+    public AttendanceModel(String studentId, String attendanceStatus) {
+        this.studentId = studentId;
+        this.attendanceStatus = attendanceStatus;
     }
 
-    public String getStudentName() {
-        return studentName;
+    // Getters
+    public String getStudentId() {
+        return studentId;
     }
 
-    public void setStudentName(String studentName) {
-        this.studentName = studentName;
+    public String getAttendanceStatus() {
+        return attendanceStatus;
     }
 
-    public String getStatus() {
-        return status;
+    // Setters (if needed)
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getIntime() {
-        return intime;
-    }
-
-    public void setIntime(String intime) {
-        this.intime = intime;
-    }
-
-    public String getOuttime() {
-        return outtime;
-    }
-
-    public void setOuttime(String outtime) {
-        this.outtime = outtime;
+    public void setAttendanceStatus(String attendanceStatus) {
+        this.attendanceStatus = attendanceStatus;
     }
 }
