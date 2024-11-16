@@ -1,4 +1,4 @@
-package com.wlghost.sas;
+package com.wlghost.sas.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +17,7 @@ import com.wlghost.sas.Adapter.StudentAdapter;
 import com.wlghost.sas.Helper.SessionManager;
 import com.wlghost.sas.Domain.Student;
 import com.wlghost.sas.Helper.dbCon;
+import com.wlghost.sas.R;
 
 import java.util.ArrayList;
 import java.util.List;
