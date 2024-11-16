@@ -31,6 +31,7 @@ public class activity_choosechild extends AppCompatActivity {
         profileImage = findViewById(R.id.profile);
         profileImage.setOnClickListener(v -> {
             if(sessionManager.isLoggedIn()){
+                //sessionManager.logoutUser();
                 sessionManager.logoutUser();
                 startActivity(new Intent(activity_choosechild.this, login_activity.class));
                 finish();

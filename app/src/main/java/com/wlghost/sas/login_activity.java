@@ -126,7 +126,7 @@ public class login_activity extends AppCompatActivity {
                                                         @Override
                                                         public void onCallback(String result) {
                                                             if (result.equals("true")) {
-                                                                startActivity(new Intent(login_activity.this, activity_parent_dashboard.class));
+                                                                startActivity(new Intent(login_activity.this, activity_choosechild.class));
                                                                 finish();
                                                                 Toast.makeText(login_activity.this, "Login Successful", Toast.LENGTH_SHORT).show();
                                                                 return;
