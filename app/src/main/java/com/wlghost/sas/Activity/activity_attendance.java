@@ -3,6 +3,7 @@ package com.wlghost.sas.Activity;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,8 +24,11 @@ import com.wlghost.sas.Domain.AttendanceModel;
 import com.wlghost.sas.Helper.dbCon;
 import com.wlghost.sas.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class activity_attendance extends AppCompatActivity {
 
@@ -46,6 +50,17 @@ public class activity_attendance extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        // Inside onCreate method
+        TextView currentDate = findViewById(R.id.currentDate);
+
+        // Get the current date
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+        String currentDateg = sdf.format(new Date());
+
+        // Set the date to the TextView
+        currentDate.setText(currentDateg);
+
         // Initialize Firestore and UI components
         db = DBCon.getDb();
         recyclerView = findViewById(R.id.recyclerView);
@@ -136,5 +151,7 @@ public class activity_attendance extends AppCompatActivity {
                     .addOnFailureListener(e -> Log.e(TAG, "Error fetching attendance data: ", e));
         }
     }
+
+
 
 }
