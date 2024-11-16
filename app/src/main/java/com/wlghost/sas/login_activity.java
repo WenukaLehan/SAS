@@ -98,7 +98,7 @@ public class login_activity extends AppCompatActivity {
             public void onClick(View v) {
 
                 String email = emailEditText.getText().toString();
-                String password = "wenuka2003";//passwordEditText.getText().toString();
+                String password = passwordEditText.getText().toString();
                 Toast.makeText(login_activity.this, email +" \n "+ password, Toast.LENGTH_SHORT).show();
                 if (email.isEmpty()) {
                     emailEditText.setError("Please enter your email");
@@ -122,7 +122,7 @@ public class login_activity extends AppCompatActivity {
                                             if (taskd.isSuccessful()) {
                                                 if (firebaseUser.isEmailVerified()) {
 
-                                                    getUserData(email, "st", new FirestoreCallback() {
+                                                    getUserData("students",email, "st", new FirestoreCallback() {
                                                         @Override
                                                         public void onCallback(String result) {
                                                             if (result.equals("true")) {
@@ -132,7 +132,7 @@ public class login_activity extends AppCompatActivity {
                                                                 return;
 
                                                             }else {
-                                                                getUserData(email, "tc", new FirestoreCallback() {
+                                                                getUserData("teachers",email, "tc", new FirestoreCallback() {
                                                                     @Override
                                                                     public void onCallback(String result) {
                                                                         if (result.equals("true")) {
@@ -181,8 +181,8 @@ public class login_activity extends AppCompatActivity {
     }
 
 
-    public void getUserData(String email, String type, final FirestoreCallback callback) {
-        db.collection("students")
+    public void getUserData(String table,String email, String type, final FirestoreCallback callback) {
+        db.collection(table)
                 .whereEqualTo("email", email)
                 .whereEqualTo("type", type)
                 .get()
