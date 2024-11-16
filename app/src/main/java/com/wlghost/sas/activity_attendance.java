@@ -3,16 +3,26 @@ package com.wlghost.sas;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.wlghost.sas.Adapter.AttendanceAdapter;
-import com.wlghost.sas.Modal.AttendanceModel;
-import com.wlghost.sas.Helper.SessionManager;
+import com.wlghost.sas.Domain.AttendanceModel;
+import com.wlghost.sas.Helper.dbCon;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,8 +30,9 @@ public class activity_attendance extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private AttendanceAdapter adapter;
+    dbCon DBCon = new dbCon();
     private List<AttendanceModel> attendanceList;
-    private FirebaseFirestore db;
+    private DocumentReference db;
     private String teacherId = "200401"; // Replace with dynamic retrieval if needed
     private static final String TAG = "activity_attendance";
 
@@ -30,14 +41,16 @@ public class activity_attendance extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_attendance);
-
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main6), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
         // Initialize Firestore and UI components
-        db = FirebaseFirestore.getInstance();
+        db = DBCon.getDb();
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         attendanceList = new ArrayList<>();
-        adapter = new AttendanceAdapter(attendanceList);
-        recyclerView.setAdapter(adapter);
 
         // Handle back button click
         findViewById(R.id.backBtn1).setOnClickListener(v -> finish());
@@ -47,49 +60,79 @@ public class activity_attendance extends AppCompatActivity {
     }
 
     private void loadAttendanceData() {
-        db.collection("schools").document("pmv").collection("teachers").document(teacherId)
-                .get()
-                .addOnSuccessListener(teacherDoc -> {
-                    if (teacherDoc.exists()) {
-                        String classId = teacherDoc.getString("classId");
-                        fetchStudentsForClass(classId);
-                    } else {
-                        Log.e(TAG, "Teacher document not found.");
-                    }
-                })
-                .addOnFailureListener(e -> Log.e(TAG, "Error fetching teacher data: ", e));
+        try {
+            db.collection("teachers").document("200401")
+                    .get()
+                    .addOnSuccessListener(teacherDoc -> {
+                        if (teacherDoc.exists()) {
+                            String classId = teacherDoc.getString("classID");
+                            fetchStudentsForClass(classId);
+                        } else {
+                            Toast.makeText(this, "Teacher document not found.", Toast.LENGTH_SHORT).show();
+                            Log.e(TAG, "Teacher document not found.");
+                        }
+                    })
+                    .addOnFailureListener(e -> Log.e(TAG, "Error fetching teacher data: ", e));
+        }
+        catch (Exception e) {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            Log.e(TAG, "Error fetching teacher data: ", e);
+        }
     }
 
     private void fetchStudentsForClass(String classId) {
-        db.collection("schools").document("pmv").collection("students")
+        db.collection("students")
                 .whereEqualTo("classId", classId)
                 .get()
-                .addOnSuccessListener(studentDocs -> {
-                    List<String> studentIds = new ArrayList<>();
-                    for (DocumentSnapshot studentDoc : studentDocs) {
-                        studentIds.add(studentDoc.getId());
-                    }
-                    fetchAttendanceStatus(studentIds);
-                })
-                .addOnFailureListener(e -> Log.e(TAG, "Error fetching students: ", e));
-    }
-
-    private void fetchAttendanceStatus(List<String> studentIds) {
-        db.collection("schools").document("pmv").collection("attendence").document("13-11-2024")
-                .collection("students")
-                .get()
-                .addOnSuccessListener(attendanceDocs -> {
-                    for (DocumentSnapshot attendanceDoc : attendanceDocs) {
-                        String studentId = attendanceDoc.getId();
-                        if (studentIds.contains(studentId)) {
-                            String studentName = attendanceDoc.getString("name"); // Ensure 'name' field exists in Firestore
-                            String inTime = attendanceDoc.getString("in_time");
-                            String status = (inTime != null && !inTime.isEmpty()) ? "Present" : "Absent";
-                            attendanceList.add(new AttendanceModel(studentName, status));
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            List<String> studentIds = new ArrayList<>();
+                            for (DocumentSnapshot studentDoc : task.getResult()) {
+                                studentIds.add(studentDoc.getId());
+                            }
+                            fetchAttendanceStatus(studentIds);
+                        }
+                        else{
+                            Toast.makeText(activity_attendance.this, "Error fetching student data.", Toast.LENGTH_SHORT).show();
+                            Log.e(TAG, "Error fetching student data: ", task.getException());
                         }
                     }
-                    adapter.notifyDataSetChanged();
                 })
-                .addOnFailureListener(e -> Log.e(TAG, "Error fetching attendance data: ", e));
+                .addOnFailureListener(e -> Log.e(TAG, "Error fetching students for class: ", e));
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void fetchAttendanceStatus(List<String> studentIds) {
+        for (String studentId : studentIds) {
+            Toast.makeText(this, studentId, Toast.LENGTH_SHORT).show();
+            db.collection("attendence").document("16-11-2024").collection("students")
+                    .whereEqualTo("id", studentId)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (DocumentSnapshot attendanceDoc : task.getResult()) {
+                                    String inTime = attendanceDoc.getString("in_time");
+                                    String outTime = attendanceDoc.getString("out_time");
+                                    String attendanceStatus = inTime != null && outTime != null ? "Present" : "Absent";
+                                    attendanceList.add(new AttendanceModel(studentId, attendanceStatus));
+                                    Toast.makeText(activity_attendance.this, attendanceStatus +"\n"+studentId, Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                Toast.makeText(activity_attendance.this, "Error fetching attendance data.", Toast.LENGTH_SHORT).show();
+                                Log.e(TAG, "Error fetching attendance data: ", task.getException());
+                            }
+                        }
+                    })
+                    .addOnFailureListener(e -> Log.e(TAG, "Error fetching attendance data: ", e));
+
+
+        }
+        adapter = new AttendanceAdapter(attendanceList);
+        adapter.notifyDataSetChanged();
+        recyclerView.setAdapter(adapter);
     }
 }

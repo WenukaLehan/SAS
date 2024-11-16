@@ -7,7 +7,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.wlghost.sas.Modal.AttendanceModel;
+import com.wlghost.sas.Domain.AttendanceModel;
 import com.wlghost.sas.R;
 
 import java.util.List;
