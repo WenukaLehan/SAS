@@ -11,4 +11,10 @@ public class dbCon {
     public DocumentReference getDb() {
         return db.collection("schools").document("pmv");
     }
+    public DocumentReference getDefaultSchoolDocument() {
+        return db.collection("schools").document("pmv");
+    }
+    public DocumentReference getSchoolDocument(String documentId) {
+        return db.collection("schools").document(documentId);
+    }
 }
