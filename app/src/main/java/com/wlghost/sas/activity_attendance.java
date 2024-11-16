@@ -105,34 +105,36 @@ public class activity_attendance extends AppCompatActivity {
 
     @SuppressLint("NotifyDataSetChanged")
     private void fetchAttendanceStatus(List<String> studentIds) {
+        // Clear the list to prevent duplicates if the method is called again
+        attendanceList.clear();
+
         for (String studentId : studentIds) {
-            Toast.makeText(this, studentId, Toast.LENGTH_SHORT).show();
             db.collection("attendence").document("16-11-2024").collection("students")
                     .whereEqualTo("id", studentId)
                     .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                for (DocumentSnapshot attendanceDoc : task.getResult()) {
-                                    String inTime = attendanceDoc.getString("in_time");
-                                    String outTime = attendanceDoc.getString("out_time");
-                                    String attendanceStatus = inTime != null && outTime != null ? "Present" : "Absent";
-                                    attendanceList.add(new AttendanceModel(studentId, attendanceStatus));
-                                    Toast.makeText(activity_attendance.this, attendanceStatus +"\n"+studentId, Toast.LENGTH_SHORT).show();
-                                }
-                            } else {
-                                Toast.makeText(activity_attendance.this, "Error fetching attendance data.", Toast.LENGTH_SHORT).show();
-                                Log.e(TAG, "Error fetching attendance data: ", task.getException());
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful() && task.getResult() != null) {
+                            for (DocumentSnapshot attendanceDoc : task.getResult()) {
+                                String inTime = attendanceDoc.getString("in_time");
+                                String outTime = attendanceDoc.getString("out_time");
+                                String attendanceStatus = inTime != null && outTime != null ? "Present" : "Absent";
+
+                                attendanceList.add(new AttendanceModel(studentId, attendanceStatus));
                             }
+                        } else {
+                            Log.e(TAG, "Error fetching attendance data: ", task.getException());
+                        }
+
+                        // Notify the adapter after all data is fetched
+                        if (adapter == null) {
+                            adapter = new AttendanceAdapter(attendanceList);
+                            recyclerView.setAdapter(adapter);
+                        } else {
+                            adapter.notifyDataSetChanged();
                         }
                     })
                     .addOnFailureListener(e -> Log.e(TAG, "Error fetching attendance data: ", e));
-
-
         }
-        adapter = new AttendanceAdapter(attendanceList);
-        adapter.notifyDataSetChanged();
-        recyclerView.setAdapter(adapter);
     }
+
 }
