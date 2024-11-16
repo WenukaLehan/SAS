@@ -1,4 +1,4 @@
-package com.wlghost.sas;
+package com.wlghost.sas.Activity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -19,6 +19,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.firebase.firestore.DocumentReference;
 import com.wlghost.sas.Helper.SessionManager;
 import com.wlghost.sas.Helper.dbCon;
+import com.wlghost.sas.R;
 
 public class activity_announcements extends AppCompatActivity {
 

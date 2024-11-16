@@ -1,4 +1,4 @@
-package com.wlghost.sas;
+package com.wlghost.sas.Activity;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
+
+import com.wlghost.sas.R;
 
 import java.util.ArrayList;
 

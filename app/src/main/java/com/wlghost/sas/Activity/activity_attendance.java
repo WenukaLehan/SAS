@@ -1,4 +1,4 @@
-package com.wlghost.sas;
+package com.wlghost.sas.Activity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -17,11 +17,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.wlghost.sas.Adapter.AttendanceAdapter;
 import com.wlghost.sas.Domain.AttendanceModel;
 import com.wlghost.sas.Helper.dbCon;
+import com.wlghost.sas.R;
 
 import java.util.ArrayList;
 import java.util.List;

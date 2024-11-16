@@ -1,6 +1,5 @@
-package com.wlghost.sas;
+package com.wlghost.sas.Activity;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -9,21 +8,19 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class activity_view_marks extends AppCompatActivity {
+import com.wlghost.sas.R;
 
-    @SuppressLint("MissingInflatedId")
+public class activity_semester extends AppCompatActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_view_marks);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main7), (v, insets) -> {
+        setContentView(R.layout.activity_semester);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-        //when user click backBtn2 then it will go to activity_teacher_class
-        findViewById(R.id.backBtn3).setOnClickListener(v -> onBackPressed());
     }
 }

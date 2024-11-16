@@ -1,4 +1,4 @@
-package com.wlghost.sas;
+package com.wlghost.sas.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,7 +14,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.google.android.material.button.MaterialButton;
 import com.wlghost.sas.Helper.SessionManager;
 
-import com.google.android.material.button.MaterialButton;
+import com.wlghost.sas.R;
 
 public class activity_parent_dashboard extends AppCompatActivity {
 

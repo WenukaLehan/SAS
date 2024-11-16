@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.wlghost.sas.login_activity;
+import com.wlghost.sas.Activity.login_activity;
 
 public class SessionManager {
     SharedPreferences pref;
