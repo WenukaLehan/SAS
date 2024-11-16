@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.wlghost.sas.Domain.Student;
@@ -37,6 +38,10 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
         holder.childGrade.setText("Grade " + student.getGrade());
         holder.childId.setText(student.getStId());
         holder.childDob.setText(student.getDob());
+
+        holder.constraintLayout.setOnClickListener(v -> {
+
+        });
     }
 
     @Override
@@ -46,12 +51,14 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
 
     public static class StudentViewHolder extends RecyclerView.ViewHolder {
         TextView childName, childGrade, childId, childDob;
+        ConstraintLayout constraintLayout;
         public StudentViewHolder (@NonNull View itemView) {
             super(itemView);
             childName = itemView.findViewById(R.id.ChildName);
             childGrade = itemView.findViewById(R.id.childGrade);
             childId = itemView.findViewById(R.id.ChildId);
             childDob = itemView.findViewById(R.id.childDOB);
+            constraintLayout = itemView.findViewById(R.id.child_gridview);
         }
     }
 }
