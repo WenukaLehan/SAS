@@ -181,8 +181,8 @@ public class login_activity extends AppCompatActivity {
     }
 
 
-    public void getUserData(String table,String email, String type, final FirestoreCallback callback) {
-        db.collection(table)
+    public void getUserData(String table1,String email, String type, final FirestoreCallback callback) {
+        db.collection(table1)
                 .whereEqualTo("email", email)
                 .whereEqualTo("type", type)
                 .get()
