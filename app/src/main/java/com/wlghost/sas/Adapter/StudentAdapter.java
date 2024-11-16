@@ -8,7 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.wlghost.sas.Helper.Student;
+import com.wlghost.sas.Domain.Student;
 import com.wlghost.sas.R;
 
 import java.util.List;

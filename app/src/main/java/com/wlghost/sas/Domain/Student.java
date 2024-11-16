@@ -1,4 +1,4 @@
-package com.wlghost.sas.Helper;
+package com.wlghost.sas.Domain;
 
 public class Student {
     private String classId;

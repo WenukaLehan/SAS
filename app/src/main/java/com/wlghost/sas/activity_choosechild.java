@@ -7,9 +7,6 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,7 +15,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.wlghost.sas.Adapter.StudentAdapter;
 import com.wlghost.sas.Helper.SessionManager;
-import com.wlghost.sas.Helper.Student;
+import com.wlghost.sas.Domain.Student;
 import com.wlghost.sas.Helper.dbCon;
 
 import java.util.ArrayList;
