@@ -1,7 +1,10 @@
 package com.wlghost.sas;
 
+import static com.wlghost.sas.R.id.emailAdd;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,7 +12,13 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.wlghost.sas.Helper.SessionManager;
+
 public class activity_teacher_class extends AppCompatActivity {
+
+    private TextView textView;
+    private TextView textView1;
+    private SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +30,10 @@ public class activity_teacher_class extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        textView = findViewById(R.id.teaccherName);
+        sessionManager = new SessionManager(this);
+        textView1 = findViewById(R.id.emailAdd);
 
        //when user clicks backBtn then activity_teacher_class will be open
         findViewById(R.id.backBtn).setOnClickListener(v -> onBackPressed());
@@ -35,7 +48,8 @@ public class activity_teacher_class extends AppCompatActivity {
         //when user clicks announcementsButton then activity_announcements will be open
         findViewById(R.id.announcementsButton).setOnClickListener(v -> startActivity(new Intent(this, activity_announcements.class)));
 
-
+        textView.setText(sessionManager.getUserName());
+        textView1.setText(sessionManager.getUserEmail());
 
     }
 

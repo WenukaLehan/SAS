@@ -93,6 +93,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/classId"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="11 - B"
@@ -101,6 +102,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/teaccherName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Mrs.Chathuri Wathsala"
@@ -108,6 +110,7 @@
                     android:textSize="19sp" />
 
                 <TextView
+                    android:id="@+id/emailAdd"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="chathurik@gmail.com"
