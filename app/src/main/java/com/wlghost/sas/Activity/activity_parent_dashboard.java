@@ -3,6 +3,7 @@ package com.wlghost.sas.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -36,6 +37,13 @@ public class activity_parent_dashboard extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        //get intet extra data
+        String studentName = getIntent().getStringExtra("studentName");
+        String studentId = getIntent().getStringExtra("studentId");
+        TextView studentNameTextView = findViewById(R.id.myClass);
+        studentNameTextView.setText(studentName);
+
+
         attendanceButton = findViewById(R.id.attendanceButton);
         // Set click listener for the attendance button
         attendanceButton.setOnClickListener(v -> {

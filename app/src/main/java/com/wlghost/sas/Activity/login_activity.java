@@ -16,6 +16,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.AuthResult;
@@ -167,6 +168,12 @@ public class login_activity extends AppCompatActivity {
                                 } else {
                                     Toast.makeText(login_activity.this, "Username or Password is incorrect", Toast.LENGTH_SHORT).show();
                                 }
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(login_activity.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
             }

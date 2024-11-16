@@ -1,5 +1,6 @@
 package com.wlghost.sas.Adapter;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.wlghost.sas.Activity.activity_parent_dashboard;
+import com.wlghost.sas.Activity.activity_view_marks;
 import com.wlghost.sas.Domain.Student;
 import com.wlghost.sas.R;
 
@@ -40,7 +43,10 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
         holder.childDob.setText(student.getDob());
 
         holder.constraintLayout.setOnClickListener(v -> {
-
+            Intent intent = new Intent(v.getContext(), activity_parent_dashboard.class);
+            intent.putExtra("studentId", student.getStId());
+            intent.putExtra("studentName", student.getDisName());
+            v.getContext().startActivity(intent);
         });
     }
 
