@@ -17,7 +17,7 @@ import com.wlghost.sas.Helper.SessionManager;
 public class activity_parent_dashboard extends AppCompatActivity {
 
     private ImageView profileImage;
-    SessionManager sessionManager;
+    private SessionManager sessionManager;
 
     MaterialButton attendanceButton;
     MaterialButton viewMarksButton;

@@ -100,6 +100,7 @@
             </LinearLayout>
 
             <EditText
+                android:id="@+id/announcementText"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_marginTop="8dp"
@@ -147,29 +148,34 @@
             </LinearLayout>
 
             <RadioGroup
+                android:id="@+id/announcementType"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp">
 
                 <RadioButton
+                    android:id="@+id/assignmentRadio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Assignment"
                     android:textColor="#666666" />
 
                 <RadioButton
+                    android:id="@+id/meetingRadio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Meeting"
                     android:textColor="#666666" />
 
                 <RadioButton
+                    android:id="@+id/warningRadio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Warning"
                     android:textColor="#666666" />
 
                 <RadioButton
+                    android:id="@+id/otherRadio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Other"
