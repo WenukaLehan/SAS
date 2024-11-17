@@ -203,7 +203,7 @@ public class login_activity extends AppCompatActivity {
 
                                 // Use the callback to return the result
                                 callback.onCallback("true");
-                                return;
+                                return ;
                             }
                             callback.onCallback("No document found");
                         } else {

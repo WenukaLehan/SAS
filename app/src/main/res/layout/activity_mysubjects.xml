@@ -75,7 +75,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="210dp"
             android:orientation="vertical"
             android:padding="16dp">
 
@@ -105,21 +105,26 @@
                 android:layout_marginTop="16dp"
                 android:gravity="center"
                 android:orientation="vertical">
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" >
 
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="1st Subject" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:orientation="vertical">
 
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="2nd Subject" />
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:layout_width="match_parent"
+                            android:paddingBottom="10dp"
+                            android:layout_height="match_parent"
+                            android:id="@+id/recyclerView_subjectsGrid"/>
 
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="3rd Subject" />
+                    </LinearLayout>
+                </ScrollView>
+
+
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
@@ -135,9 +140,9 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="180dp"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="8dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -166,15 +171,24 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Class 10-A" />
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" >
 
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Class 10-C" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="vertical">
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/classRecyclerView_classGrid"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            tools:listitem="@layout/item_class_gridview" />
+                    </LinearLayout>
+
+                </ScrollView>
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
