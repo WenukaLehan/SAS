@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main10"
+    android:id="@+id/main11"
     android:layout_height="match_parent"
     android:background="#F5F5F5">
 
@@ -32,8 +32,6 @@
             android:src="@drawable/profile3" />
 
     </androidx.appcompat.widget.Toolbar>
-
-
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -90,7 +88,7 @@
     </LinearLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/submitButton"
+        android:id="@+id/viewButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
@@ -99,7 +97,7 @@
         android:layout_marginBottom="32dp"
         android:backgroundTint="@color/red"
         android:padding="7dp"
-        android:text="Submit Marks"
+        android:text="View Marks"
         android:textColor="@color/white"
         android:textSize="21dp"
         app:cornerRadius="50dp"
