@@ -67,7 +67,7 @@ public class activity_mysubjects extends AppCompatActivity implements OnISubject
         uploadMarkBtn = findViewById(R.id.uploadButton);
         recyclerView = findViewById(R.id.recyclerView_subjectsGrid);
         recyclerView2 = findViewById(R.id.classRecyclerView_classGrid);
-        ViewMarksBtn = findViewById(R.id.downloadButton);
+        ViewMarksBtn = findViewById(R.id.submitButton);
 
         teacherId = sessionManager.getUserId();
 
