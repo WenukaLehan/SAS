@@ -12,12 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SAS"
         tools:targetApi="31">
-        <activity
-            android:name=".item_viewmarks"
-            android:exported="false" />
-        <activity
-            android:name=".item_addmarks"
-            android:exported="false" />
+
         <activity
             android:name=".Activity.activity_teacher_viewmarks"
             android:exported="false" />
