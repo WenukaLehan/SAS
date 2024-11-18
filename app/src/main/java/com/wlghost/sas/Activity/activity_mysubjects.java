@@ -1,5 +1,6 @@
 package com.wlghost.sas.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -22,8 +23,10 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.wlghost.sas.Adapter.TcClassAdapter;
 import com.wlghost.sas.Adapter.TcSubjectAdapter;
 import com.wlghost.sas.Domain.TcSubject;
+import com.wlghost.sas.Helper.OnISubjectClickListener;
 import com.wlghost.sas.Helper.SessionManager;
 import com.wlghost.sas.Helper.dbCon;
 import com.wlghost.sas.R;
@@ -33,10 +36,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public class activity_mysubjects extends AppCompatActivity {
+public class activity_mysubjects extends AppCompatActivity implements OnISubjectClickListener {
     private RecyclerView recyclerView;
     private TcSubjectAdapter SubAdapter;
+    private TcClassAdapter ClassAdapter;
     private MaterialButton uploadMarkBtn;
+    private MaterialButton ViewMarksBtn;
+    private RecyclerView recyclerView2;
+
 
     private dbCon DBcon = new dbCon();
     private DocumentReference db;
@@ -59,13 +66,37 @@ public class activity_mysubjects extends AppCompatActivity {
 
         uploadMarkBtn = findViewById(R.id.uploadButton);
         recyclerView = findViewById(R.id.recyclerView_subjectsGrid);
+        recyclerView2 = findViewById(R.id.classRecyclerView_classGrid);
+        ViewMarksBtn = findViewById(R.id.downloadButton);
 
         teacherId = sessionManager.getUserId();
 
         uploadMarkBtn.setOnClickListener(v -> {
-            String selectedItem = TcSubjectAdapter.getSelectedItem();
-            if (selectedItem != null) {
-                Toast.makeText(activity_mysubjects.this, "Selected item: " + selectedItem, Toast.LENGTH_SHORT).show();
+            String subjectId = TcSubjectAdapter.getSelectedItem();
+            String classId = TcClassAdapter.getSelectedItem();
+            if (subjectId != null && classId != null) {
+                //Intent intent = new Intent(activity_mysubjects.this, activity_upload_marks.class);
+                //intent.putExtra("subjectId", subjectId);
+                //intent.putExtra("classId", classId);
+                //startActivity(intent);
+                Toast.makeText(this, "upload"+subjectId + " " + classId, Toast.LENGTH_SHORT).show();
+
+            } else
+            {
+                Toast.makeText(activity_mysubjects.this, "No item selected", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        ViewMarksBtn.setOnClickListener(v -> {
+            String subjectId = TcSubjectAdapter.getSelectedItem();
+            String classId = TcClassAdapter.getSelectedItem();
+            if (subjectId != null && classId != null) {
+                //Intent intent = new Intent(activity_mysubjects.this, activity_view_marks.class);
+                //intent.putExtra("subjectId", subjectId);
+                //intent.putExtra("classId", classId);
+                //startActivity(intent);
+                Toast.makeText(this, "View"+subjectId + " " + classId, Toast.LENGTH_SHORT).show();
+
             } else
             {
                 Toast.makeText(activity_mysubjects.this, "No item selected", Toast.LENGTH_SHORT).show();
@@ -97,7 +128,7 @@ public class activity_mysubjects extends AppCompatActivity {
                                         String subjectName = getName(subjectId);
                                         subjects.add(new TcSubject(subjectId, subjectName));
                                     }
-                                    SubAdapter = new TcSubjectAdapter(activity_mysubjects.this,subjects);
+                                    SubAdapter = new TcSubjectAdapter(activity_mysubjects.this,subjects, activity_mysubjects.this);
                                     recyclerView.setLayoutManager(new LinearLayoutManager(activity_mysubjects.this));
                                     recyclerView.setAdapter(SubAdapter);
                                 }
@@ -128,5 +159,43 @@ public class activity_mysubjects extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void initClasses(String subjectId){
+        db.collection("teachers").document(teacherId)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            List<TcSubject>  classes = new ArrayList<>();
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                Map<String, Object> data = (Map<String, Object>) document.get("subjects");
+                                if (data != null) {
+                                    for (Map.Entry<String, Object> entry : data.entrySet()) {
+                                        if(entry.getKey().equals(subjectId)){
+                                            String[] classData = entry.getValue().toString().split(" - ");
+                                            for (String classId : classData) {
+                                                String className = classId.split("_")[3];
+                                                classes.add(new TcSubject(classId, className));
+                                            }
+                                        }
+                                    }
+                                    ClassAdapter = new TcClassAdapter(activity_mysubjects.this,classes);
+                                    recyclerView2.setLayoutManager(new LinearLayoutManager(activity_mysubjects.this));
+                                    recyclerView2.setAdapter(ClassAdapter);
+                                }
+
+                            }
+                            else {
+                                Toast.makeText(activity_mysubjects.this, "No subjects found", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        else {
+                            Toast.makeText(activity_mysubjects.this, "Error fetching subjects: " + task.getException(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
 
 }

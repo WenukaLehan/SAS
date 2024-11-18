@@ -2,17 +2,21 @@ package com.wlghost.sas.Adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.location.GnssAntennaInfo;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.wlghost.sas.Activity.activity_mysubjects;
 import com.wlghost.sas.Domain.TcSubject;
+import com.wlghost.sas.Helper.OnISubjectClickListener;
 import com.wlghost.sas.R;
 
 import java.util.List;
@@ -21,10 +25,12 @@ public class TcSubjectAdapter extends RecyclerView.Adapter<TcSubjectAdapter.View
     private static List<TcSubject> subjectList;
     private Context mContext;
     private static int selectedItem = -1;
+    private OnISubjectClickListener OnSubjectClickListener;
 
-    public TcSubjectAdapter(Context context,List<TcSubject> subjectList) {
+    public TcSubjectAdapter(Context context,List<TcSubject> subjectList, OnISubjectClickListener listener) {
         TcSubjectAdapter.subjectList = subjectList;
         this.mContext = context;
+        this.OnSubjectClickListener = listener;
     }
 
 
@@ -42,10 +48,13 @@ public class TcSubjectAdapter extends RecyclerView.Adapter<TcSubjectAdapter.View
             @Override
             public void onClick(View v) {
                 selectedItem = position;
+                OnSubjectClickListener.initClasses(subject.getId());
                 notifyDataSetChanged();
             }
         });
     }
+
+
 
     @NonNull
     @Override
