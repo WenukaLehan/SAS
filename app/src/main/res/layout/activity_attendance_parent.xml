@@ -2,8 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main10"
     android:layout_width="match_parent"
-    android:id="@+id/main12"
     android:layout_height="match_parent"
     android:background="#F0F0F0">
 
@@ -17,7 +17,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Parent Dashboard"
+            android:text="Attendance"
             android:textColor="#FFFFFF"
             android:textSize="30sp"
             android:textStyle="bold" />
@@ -48,15 +48,17 @@
             android:padding="16dp">
 
             <ImageView
+                android:id="@+id/attcBack"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/arrowgreyleft" />
 
             <TextView
+                android:id="@+id/attendanceTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:text="Attendance"
+                android:text="Student Attendance"
                 android:textColor="@color/gray"
                 android:textSize="21sp"
                 android:textStyle="bold" />
@@ -75,6 +77,7 @@
 
         <TextView
             android:layout_width="0dp"
+            android:id="@+id/Date"
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:text="Date"
@@ -109,6 +112,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tableHeader" />
+        app:layout_constraintTop_toBottomOf="@id/tableHeader"
+        tools:listitem="@layout/childattendance_cardview"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

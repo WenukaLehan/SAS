@@ -62,7 +62,7 @@ public class login_activity extends AppCompatActivity {
         // If user is already logged in, redirect to MainActivity
         if (sessionManager.isLoggedIn()) {
             if(sessionManager.getUserType().equals("st")) {
-                startActivity(new Intent(login_activity.this, activity_parent_dashboard.class));
+                startActivity(new Intent(login_activity.this, activity_choosechild.class));
                 finish();
             }else {
                 startActivity(new Intent(login_activity.this, activity_teacher_dashboard.class));

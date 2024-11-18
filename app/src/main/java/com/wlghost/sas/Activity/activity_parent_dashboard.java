@@ -20,6 +20,7 @@ import com.wlghost.sas.R;
 public class activity_parent_dashboard extends AppCompatActivity {
 
     private ImageView profileImage;
+    private  ImageView backbtn;
     private SessionManager sessionManager;
 
     MaterialButton attendanceButton;
@@ -43,17 +44,32 @@ public class activity_parent_dashboard extends AppCompatActivity {
         TextView studentNameTextView = findViewById(R.id.myClass);
         studentNameTextView.setText(studentName);
 
+        // Initialize Session Manager
+        sessionManager = new SessionManager(getApplicationContext());
 
         attendanceButton = findViewById(R.id.attendanceButton);
+        viewMarksButton = findViewById(R.id.viewMarksButton);
+        announcementsButton = findViewById(R.id.announcementsButton);
+
+
         // Set click listener for the attendance button
         attendanceButton.setOnClickListener(v -> {
 
-        });
-        sessionManager = new SessionManager(getApplicationContext());
+            Intent intent = new Intent(activity_parent_dashboard.this, activity_attendance_parent.class);
+            intent.putExtra("studentName", studentName); // Pass student ID for Attendance
+            startActivity(intent);
 
-         attendanceButton = findViewById(R.id.attendanceButton);
-         viewMarksButton = findViewById(R.id.viewMarksButton);
-         announcementsButton = findViewById(R.id.announcementsButton);
+        });
+
+        // Set click listener for the attendance button
+        viewMarksButton.setOnClickListener(v -> {
+
+            Intent intent = new Intent(activity_parent_dashboard.this, activity_parent_viewreports.class);
+            intent.putExtra("studentName", studentName); // Pass student ID for Attendance
+            startActivity(intent);
+
+        });
+
 
         profileImage = findViewById(R.id.profileImage);
         profileImage.setOnClickListener(v -> {
@@ -63,6 +79,15 @@ public class activity_parent_dashboard extends AppCompatActivity {
                 finish();
                 Toast.makeText(activity_parent_dashboard.this, "Logout Successful", Toast.LENGTH_SHORT).show();
             }
+
+        });
+
+        backbtn = findViewById(R.id.back);
+        backbtn.setOnClickListener(v -> {
+
+            Intent intent = new Intent(activity_parent_dashboard.this, activity_choosechild.class);
+            //intent.putExtra("studentName", studentName); // Pass student ID for Attendance
+            startActivity(intent);
 
         });
     }

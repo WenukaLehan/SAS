@@ -34,6 +34,11 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.At
         AttendanceModel attendance = attendanceList.get(position);
         holder.studentIdTextView.setText(attendance.getStudentId());
         holder.attendanceStatusTextView.setText(attendance.getAttendanceStatus());
+
+        //parentdashbord
+        holder.dateText.setText(attendance.getId());
+        holder.arrivedTimeText.setText(attendance.getIn_time());
+        holder.leftTimeText.setText(attendance.getOut_time());
     }
 
     @Override
@@ -46,10 +51,18 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.At
         TextView studentIdTextView;
         TextView attendanceStatusTextView;
 
+        //parentdashbord
+        TextView dateText, arrivedTimeText, leftTimeText;
+
         public AttendanceViewHolder(@NonNull View itemView) {
             super(itemView);
             studentIdTextView = itemView.findViewById(R.id.studentIdTextView);
             attendanceStatusTextView = itemView.findViewById(R.id.attendanceStatusTextView);
+
+            //parentDashbord
+            dateText = itemView.findViewById(R.id.Date);
+            arrivedTimeText = itemView.findViewById(R.id.ArivedTime);
+            leftTimeText = itemView.findViewById(R.id.LeftTime);
         }
     }
 }

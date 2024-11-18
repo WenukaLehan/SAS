@@ -45,6 +45,11 @@ public class activity_choosechild extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+
+        // Initialize student list and adapter
+        studentList = new ArrayList<>();
+        adapter = new StudentAdapter(studentList);
+
         adapter = new StudentAdapter(studentList);
         recyclerView.setAdapter(adapter);
 
