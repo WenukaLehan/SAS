@@ -82,6 +82,7 @@
                 android:layout_height="0dp"
                 android:layout_marginTop="5dp"
                 android:background="#FFFFFF"
+                tools:listitem="@layout/activity_item_addmarks"
                 android:padding="16dp" />
 
         </ScrollView>
