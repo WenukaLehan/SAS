@@ -66,7 +66,7 @@
                 android:layout_weight="1"
                 android:text="1st Semester"
                 android:textColor="#666666"
-                android:textSize="10sp" />
+                android:textSize="12sp" />
 
             <RadioButton
                 android:id="@+id/secondSemester"
@@ -75,7 +75,7 @@
                 android:layout_weight="1"
                 android:text="2nd Semester"
                 android:textColor="#666666"
-                android:textSize="10sp" />
+                android:textSize="12sp" />
 
             <RadioButton
                 android:id="@+id/thirdSemester"
@@ -84,7 +84,7 @@
                 android:layout_weight="1"
                 android:text="3rd Semester"
                 android:textColor="#666666"
-                android:textSize="10sp" />
+                android:textSize="12sp" />
         </RadioGroup>
 
     </LinearLayout>

@@ -7,6 +7,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -15,8 +16,11 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.wlghost.sas.Adapter.StudentAdapterMarks;
 import com.wlghost.sas.Domain.StudentMarks;
@@ -30,12 +34,15 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class activity_teacher_addmarks extends AppCompatActivity implements OnMarksAddListener {
 
     RecyclerView recyclerView;
     MaterialButton submitButton;
     RadioGroup semesters;
+    StudentAdapterMarks adapter;
 
     dbCon DBcon = new dbCon();
     private DocumentReference db;
@@ -78,59 +85,150 @@ public class activity_teacher_addmarks extends AppCompatActivity implements OnMa
             } else if (checkedId == R.id.thirdSemester) {
                 semester = "3rdSem";
             }
+            initStudents();
         });
 
         submitButton.setOnClickListener(v -> {
             if (semester != null) {
-                if(showConfirmDialog("Are you sure you want to submit the marks to? "+year+" "+semester, "Confirm")) {
-                    for (Map.Entry<String, String> entry : marksMap.entrySet()) {
-                        String studentId = entry.getKey();
-                        String marks = entry.getValue();
-                        saveMarksToFirestore(studentId, marks);
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Confirm");
+                builder.setMessage("Are you sure you want to submit the marks to? " + year + " " + semester);
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Handle positive button click
+                        for (Map.Entry<String, String> entry : marksMap.entrySet()) {
+                            String studentId = entry.getKey();
+                            String marks = entry.getValue();
+                            saveMarksToFirestore(studentId, marks);
+                        }
+                        Toast.makeText(activity_teacher_addmarks.this, "Marks saved successfully", Toast.LENGTH_SHORT).show();
                     }
-                    Toast.makeText(this, "Marks saved successfully", Toast.LENGTH_SHORT).show();
-                }
+                });
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Handle negative button click
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }else{
+                Toast.makeText(activity_teacher_addmarks.this, "Please select a semester", Toast.LENGTH_SHORT).show();
             }
-            else{
-                Toast.makeText(this, "Please select semester", Toast.LENGTH_SHORT).show();
-            }
+
         });
 
     }
 
-    private boolean showConfirmDialog(String message, String title) {
-        final boolean[] result = {false};
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(title);
-        builder.setMessage(message);
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // Handle positive button click
-                result[0] = true;
-            }
-        });
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override public void onClick(DialogInterface dialog, int which) {
-                // Handle negative button click
-                result[0] = false;
-                dialog.dismiss();
-            }
-        });
-        AlertDialog dialog = builder.create();
-        dialog.show();
-        return result[0];
+    List<StudentMarks> studentList1 = new ArrayList<>();
 
+    private void initStudents() {
+        //studentList.clear();
+        //adapter.notifyDataSetChanged();
+
+        db.collection("students")
+                .whereEqualTo("classId", clzId) // Filter by class ID
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    int totalDocuments = queryDocumentSnapshots.size();
+                    final int[] processedDocuments = {0};
+
+                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                        String id = document.getId(); // Document ID
+                        String name = document.getString("disName"); // Assuming "disName" field exists
+
+                        // Extract the "subjects" map
+                        Map<String, Object> subjectMap = (Map<String, Object>) document.get("subjects");
+
+                        if (subjectMap != null && subjectMap.containsKey(subId)) {
+                            // Add student to the list if the subject map contains the key
+                            getMarks(id, new GetMarksCallback() {
+                                @Override
+                                public void onResult(int mark) {
+                                    StudentMarks student = new StudentMarks();
+                                    student.setId(id);
+                                    student.setName(name);
+                                    student.setMarks(mark);
+                                    studentList1.add(student);
+
+                                    processedDocuments[0]++;
+
+                                    // Check if all documents have been processed
+                                    if (processedDocuments[0] == totalDocuments) {
+                                        // Create an adapter and set it to the RecyclerView
+                                        runOnUiThread(() -> {
+                                            adapter.clear();
+                                            Toast.makeText(activity_teacher_addmarks.this, "Students fetched successfully: " + studentList1.size(), Toast.LENGTH_SHORT).show();
+                                            adapter = new StudentAdapterMarks(studentList1, activity_teacher_addmarks.this);
+                                            recyclerView.setLayoutManager(new LinearLayoutManager(activity_teacher_addmarks.this));
+                                            recyclerView.setAdapter(adapter);
+                                            adapter.notifyDataSetChanged();
+                                        });
+                                    }
+                                }
+                            });
+                        } else {
+                            processedDocuments[0]++;
+
+                            // Check if all documents have been processed
+                            if (processedDocuments[0] == totalDocuments) {
+                                // Create an adapter and set it to the RecyclerView
+                                runOnUiThread(() -> {
+                                    adapter.clear();
+                                    Toast.makeText(activity_teacher_addmarks.this, "Students fetched successfully: " + studentList1.size(), Toast.LENGTH_SHORT).show();
+                                    adapter = new StudentAdapterMarks(studentList1, activity_teacher_addmarks.this);
+                                    recyclerView.setLayoutManager(new LinearLayoutManager(activity_teacher_addmarks.this));
+                                    recyclerView.setAdapter(adapter);
+                                    adapter.notifyDataSetChanged();
+                                });
+                            }
+                        }
+                    }
+                })
+                .addOnFailureListener(e -> Log.e("FirestoreError", e.getMessage()));
     }
+
+
+    private void getMarks(String id, GetMarksCallback callback) {
+        db.collection("marks").document(year).collection(semester)
+                .document(subId)
+                .collection("students")
+                .document(id)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                int mark = Objects.requireNonNull(document.getLong("marks")).intValue();
+                                callback.onResult(mark);
+                            } else {
+                                Log.d(TAG, "No such document");
+                                callback.onResult(0); // or handle accordingly
+                            }
+                        } else {
+                            Log.d(TAG, "get failed with ", task.getException());
+                            callback.onResult(0); // or handle accordingly
+                        }
+                    }
+                });
+    }
+
 
 
     List<StudentMarks> studentList = new ArrayList<>();
-
     public void fetchStudents(String clazid, String subjectKey) {
+        //studentList1.clear();
+       // adapter.notifyDataSetChanged();
+
         db.collection("students")
                 .whereEqualTo("classId", clazid) // Filter by class ID
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
+
                     for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
                         String id = document.getId(); // Document ID
                         String name = document.getString("disName"); // Assuming "name" field exists
@@ -140,12 +238,13 @@ public class activity_teacher_addmarks extends AppCompatActivity implements OnMa
 
                         if (subjectMap != null && subjectMap.containsKey(subjectKey)) {
                             // Add student to the list if the subject map contains the key
-                            studentList.add(new StudentMarks(id, name));
+                            studentList.add(new StudentMarks(id, name,0));
                         }
                     }
 
                     // Create an adapter and set it to the RecyclerView
-                    StudentAdapterMarks adapter = new StudentAdapterMarks( studentList, this);
+                    adapter.clear();
+                    adapter = new StudentAdapterMarks( studentList, this);
                     recyclerView.setLayoutManager(new LinearLayoutManager(this));
                     recyclerView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
@@ -169,5 +268,9 @@ public class activity_teacher_addmarks extends AppCompatActivity implements OnMa
                 .addOnFailureListener(e -> Log.e("FirestoreUpdateError", "Error saving marks: " + e.getMessage()));
     }
 
+    public interface GetMarksCallback {
+        void onResult(int mark);
+    }
 
 }
+

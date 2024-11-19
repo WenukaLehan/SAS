@@ -1,5 +1,6 @@
 package com.wlghost.sas.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -26,10 +27,10 @@ import java.util.Map;
 public class StudentAdapterMarks extends RecyclerView.Adapter<StudentAdapterMarks.MarksViewHolder> {
     private static List<StudentMarks> studentList;
     Context mContext;
-    private final Map<String, String> marksMap = new HashMap<>();
+    private static final Map<String, String> marksMap = new HashMap<>();
 
     public StudentAdapterMarks(List<StudentMarks> studentList, Context context) {
-        this.studentList = studentList;
+        StudentAdapterMarks.studentList = studentList;
         this.mContext = context;
     }
 
@@ -45,6 +46,9 @@ public class StudentAdapterMarks extends RecyclerView.Adapter<StudentAdapterMark
     public void onBindViewHolder(@NonNull MarksViewHolder holder, int position) {
         StudentMarks student = studentList.get(position);
         holder.nameTextView.setText(student.getName());
+        if(student.getMarks() > 0 ){
+            holder.marksEditText.setText(String.valueOf(student.getMarks()));
+        }
 
         if (marksMap.containsKey(student.getId())) {
             holder.marksEditText.setText(marksMap.get(student.getId()));
@@ -71,6 +75,12 @@ public class StudentAdapterMarks extends RecyclerView.Adapter<StudentAdapterMark
         });
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    public void clear() {
+        studentList.clear();
+        marksMap.clear();
+        notifyDataSetChanged();
+    }
 
 
     @Override
