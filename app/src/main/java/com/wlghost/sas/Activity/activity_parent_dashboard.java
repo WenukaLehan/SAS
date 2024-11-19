@@ -73,7 +73,7 @@ public class activity_parent_dashboard extends AppCompatActivity {
         // Set click listener for the announcement button
         announcementsButton.setOnClickListener(v -> {
 
-            Intent intent = new Intent(activity_parent_dashboard.this, activity_parent_viewreports.class);
+            Intent intent = new Intent(activity_parent_dashboard.this, Announcement_parent.class);
             intent.putExtra("studentName", studentName); // Pass student ID for Attendance
             startActivity(intent);
 
