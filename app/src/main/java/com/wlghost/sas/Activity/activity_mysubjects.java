@@ -75,11 +75,10 @@ public class activity_mysubjects extends AppCompatActivity implements OnISubject
             String subjectId = TcSubjectAdapter.getSelectedItem();
             String classId = TcClassAdapter.getSelectedItem();
             if (subjectId != null && classId != null) {
-                //Intent intent = new Intent(activity_mysubjects.this, activity_upload_marks.class);
-                //intent.putExtra("subjectId", subjectId);
-                //intent.putExtra("classId", classId);
-                //startActivity(intent);
-                Toast.makeText(this, "upload"+subjectId + " " + classId, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(activity_mysubjects.this, activity_teacher_addmarks.class);
+                intent.putExtra("subjectId", subjectId);
+                intent.putExtra("classId", classId);
+                startActivity(intent);
 
             } else
             {
@@ -91,11 +90,10 @@ public class activity_mysubjects extends AppCompatActivity implements OnISubject
             String subjectId = TcSubjectAdapter.getSelectedItem();
             String classId = TcClassAdapter.getSelectedItem();
             if (subjectId != null && classId != null) {
-                //Intent intent = new Intent(activity_mysubjects.this, activity_view_marks.class);
-                //intent.putExtra("subjectId", subjectId);
-                //intent.putExtra("classId", classId);
-                //startActivity(intent);
-                Toast.makeText(this, "View"+subjectId + " " + classId, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(activity_mysubjects.this, activity_teacher_viewmarks.class);
+                intent.putExtra("subjectId", subjectId);
+                intent.putExtra("classId", classId);
+                startActivity(intent);
 
             } else
             {

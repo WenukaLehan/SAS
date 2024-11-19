@@ -12,17 +12,19 @@
         android:layout_height="wrap_content"
         android:text="Student Name"
         android:textSize="16sp"
+        android:layout_weight="2"
         android:textStyle="bold"
         android:textColor="@color/black"
         android:layout_marginBottom="8dp"/>
 
-    <TextView
+    <EditText
         android:id="@+id/MarksTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:hint="Marks"
+        android:inputType="number"
         android:paddingLeft="170dp"
         android:textStyle="bold"
-        android:text="Marks"
         android:textColor="@color/black"
         android:textSize="16sp" />
 </LinearLayout>
