@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -41,8 +42,8 @@ public class activity_teacher_addmarks extends AppCompatActivity implements OnMa
 
     RecyclerView recyclerView;
     MaterialButton submitButton;
-    RadioGroup semesters;
     StudentAdapterMarks adapter;
+    TextView selectSemester;
 
     dbCon DBcon = new dbCon();
     private DocumentReference db;
@@ -66,7 +67,7 @@ public class activity_teacher_addmarks extends AppCompatActivity implements OnMa
         db = DBcon.getDb();
         recyclerView = findViewById(R.id.studentlistAddMark);
         submitButton = findViewById(R.id.submitButton);
-        semesters = findViewById(R.id.semesters);
+        selectSemester = findViewById(R.id.selectSemester);
 
         clzId = getIntent().getStringExtra("classId");
         subId = getIntent().getStringExtra("subjectId");
@@ -75,21 +76,11 @@ public class activity_teacher_addmarks extends AppCompatActivity implements OnMa
         int currentYear = calendar.get(Calendar.YEAR);
         year = Integer.toString(currentYear);
         marksMap = new HashMap<>();
-        fetchStudents(clzId, subId); // Fetch students for the specified class and subject
+        checkSem(); // Fetch students for the specified class and subject
 
-        semesters.setOnCheckedChangeListener((group, checkedId) -> {
-            if (checkedId == R.id.firstSemester) {
-                semester = "1stSem";
-            } else if (checkedId == R.id.secondSemester) {
-                semester = "2ndSem";
-            } else if (checkedId == R.id.thirdSemester) {
-                semester = "3rdSem";
-            }
-            initStudents();
-        });
+
 
         submitButton.setOnClickListener(v -> {
-            if (semester != null) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("Confirm");
                 builder.setMessage("Are you sure you want to submit the marks to? " + year + " " + semester);
@@ -114,19 +105,47 @@ public class activity_teacher_addmarks extends AppCompatActivity implements OnMa
                 });
                 AlertDialog dialog = builder.create();
                 dialog.show();
-            }else{
-                Toast.makeText(activity_teacher_addmarks.this, "Please select a semester", Toast.LENGTH_SHORT).show();
-            }
+
 
         });
 
     }
 
+    private void checkSem(){
+        db.collection("semister").document("current")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                     @Override
+                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                         if (task.isSuccessful()) {
+                             DocumentSnapshot document = task.getResult();
+                             if (document.exists()) {
+                                 String sem = document.getString("sem");
+                                 semester = sem;
+                                 selectSemester.setText("Add marks to the " + year + " " + semester );
+                                 initStudents();
+                             } else {
+                                 Log.d(TAG, "No such document");
+                             }
+                         } else {
+                             Log.d(TAG, "get failed with ", task.getException());
+                         }
+                     }
+                 });
+    }
+
+    private void clearRecyclerView() {
+        // Ensure adapter is not null before clearing it
+        if (adapter != null) {
+            adapter.clear();
+            Toast.makeText(this, "RecyclerView cleared", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     List<StudentMarks> studentList1 = new ArrayList<>();
 
     private void initStudents() {
-        //studentList.clear();
-        //adapter.notifyDataSetChanged();
+        clearRecyclerView();
 
         db.collection("students")
                 .whereEqualTo("classId", clzId) // Filter by class ID
@@ -159,7 +178,7 @@ public class activity_teacher_addmarks extends AppCompatActivity implements OnMa
                                     if (processedDocuments[0] == totalDocuments) {
                                         // Create an adapter and set it to the RecyclerView
                                         runOnUiThread(() -> {
-                                            adapter.clear();
+
                                             Toast.makeText(activity_teacher_addmarks.this, "Students fetched successfully: " + studentList1.size(), Toast.LENGTH_SHORT).show();
                                             adapter = new StudentAdapterMarks(studentList1, activity_teacher_addmarks.this);
                                             recyclerView.setLayoutManager(new LinearLayoutManager(activity_teacher_addmarks.this));
@@ -176,7 +195,7 @@ public class activity_teacher_addmarks extends AppCompatActivity implements OnMa
                             if (processedDocuments[0] == totalDocuments) {
                                 // Create an adapter and set it to the RecyclerView
                                 runOnUiThread(() -> {
-                                    adapter.clear();
+
                                     Toast.makeText(activity_teacher_addmarks.this, "Students fetched successfully: " + studentList1.size(), Toast.LENGTH_SHORT).show();
                                     adapter = new StudentAdapterMarks(studentList1, activity_teacher_addmarks.this);
                                     recyclerView.setLayoutManager(new LinearLayoutManager(activity_teacher_addmarks.this));
@@ -221,8 +240,7 @@ public class activity_teacher_addmarks extends AppCompatActivity implements OnMa
 
     List<StudentMarks> studentList = new ArrayList<>();
     public void fetchStudents(String clazid, String subjectKey) {
-        //studentList1.clear();
-       // adapter.notifyDataSetChanged();
+        clearRecyclerView();
 
         db.collection("students")
                 .whereEqualTo("classId", clazid) // Filter by class ID
@@ -243,7 +261,7 @@ public class activity_teacher_addmarks extends AppCompatActivity implements OnMa
                     }
 
                     // Create an adapter and set it to the RecyclerView
-                    adapter.clear();
+
                     adapter = new StudentAdapterMarks( studentList, this);
                     recyclerView.setLayoutManager(new LinearLayoutManager(this));
                     recyclerView.setAdapter(adapter);

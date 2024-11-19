@@ -53,39 +53,7 @@
             android:textColor="#000000"
             android:textSize="19sp" />
 
-        <RadioGroup
-            android:id="@+id/semesters"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
 
-            <RadioButton
-                android:id="@+id/firstSemester"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="1st Semester"
-                android:textColor="#666666"
-                android:textSize="12sp" />
-
-            <RadioButton
-                android:id="@+id/secondSemester"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="2nd Semester"
-                android:textColor="#666666"
-                android:textSize="12sp" />
-
-            <RadioButton
-                android:id="@+id/thirdSemester"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="3rd Semester"
-                android:textColor="#666666"
-                android:textSize="12sp" />
-        </RadioGroup>
 
     </LinearLayout>
 

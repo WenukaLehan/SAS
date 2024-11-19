@@ -34,14 +34,71 @@
     </androidx.appcompat.widget.Toolbar>
 
     <LinearLayout
+        android:id="@+id/semester"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F8F8F8"
+        android:orientation="vertical"
+        android:padding="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout">
+
+        <TextView
+            android:id="@+id/selectSemester"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Select Semester"
+            android:textColor="#000000"
+            android:textSize="19sp" />
+
+        <RadioGroup
+            android:id="@+id/semesters"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/firstSemester"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="1st Semester"
+                android:textColor="#666666"
+                android:textSize="12sp" />
+
+            <RadioButton
+                android:id="@+id/secondSemester"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="2nd Semester"
+                android:textColor="#666666"
+                android:textSize="12sp" />
+
+            <RadioButton
+                android:id="@+id/thirdSemester"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="3rd Semester"
+                android:textColor="#666666"
+                android:textSize="12sp" />
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="406dp"
         android:layout_height="578dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/submitButton"
+        android:paddingBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+        app:layout_constraintTop_toBottomOf="@+id/semester">
 
         <LinearLayout
             android:id="@+id/tableHeader"
@@ -77,36 +134,17 @@
             android:layout_height="match_parent">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/studentlistAddMark"
+                android:id="@+id/studentlistViewMark"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginTop="5dp"
                 android:background="#FFFFFF"
-                tools:listitem="@layout/activity_item_addmarks"
-                android:padding="16dp" />
+                android:padding="16dp"
+                tools:listitem="@layout/activity_item_addmarks" />
 
         </ScrollView>
     </LinearLayout>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/viewButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="32dp"
-        android:backgroundTint="@color/red"
-        android:padding="7dp"
-        android:text="View Marks"
-        android:textColor="@color/white"
-        android:textSize="21dp"
-        app:cornerRadius="50dp"
-        app:icon="@drawable/arrowwhite"
-        app:iconGravity="end"
-        app:iconSize="35dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/linearLayout" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
