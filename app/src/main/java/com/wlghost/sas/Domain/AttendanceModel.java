@@ -4,23 +4,17 @@ public class AttendanceModel {
     private String studentId;
     private String attendanceStatus;
 
-    //parentattendance######################################//
-    private String id;
-    private String in_time;
-    private String out_time;
+
 
 
     // Empty constructor for Firestore
-    public AttendanceModel() {}
+
     // Constructor
     public AttendanceModel(String studentId, String attendanceStatus) {
         this.studentId = studentId;
         this.attendanceStatus = attendanceStatus;
 
-        //parentdashbord
-        this.id = id;
-        this.in_time = in_time;
-        this.out_time = out_time;
+
 
     }
 
@@ -34,18 +28,6 @@ public class AttendanceModel {
     }
 
 
-    //parentdashbord
-    public String getId() {
-        return id;
-    }
-
-    public String getIn_time() {
-        return in_time;
-    }
-
-    public String getOut_time() {
-        return out_time;
-    }
 
 
 
