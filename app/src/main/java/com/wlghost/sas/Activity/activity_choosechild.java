@@ -77,6 +77,10 @@ public class activity_choosechild extends AppCompatActivity {
                             // Handle the error here
                         }
                     });
+
+
+
+
         sessionManager = new SessionManager(getApplicationContext());
         profileImage = findViewById(R.id.profile);
         profileImage.setOnClickListener(v -> {
