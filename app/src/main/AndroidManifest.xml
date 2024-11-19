@@ -12,7 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SAS"
         tools:targetApi="31">
-
+        <activity
+            android:name=".Activity.Parent_Announcement"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.Announcement_parent"
+            android:exported="false" />
         <activity
             android:name=".Activity.activity_teacher_viewmarks"
             android:exported="false" />

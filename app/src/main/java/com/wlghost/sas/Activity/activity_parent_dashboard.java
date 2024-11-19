@@ -61,8 +61,17 @@ public class activity_parent_dashboard extends AppCompatActivity {
 
         });
 
-        // Set click listener for the attendance button
+        // Set click listener for the viewmark button
         viewMarksButton.setOnClickListener(v -> {
+
+            Intent intent = new Intent(activity_parent_dashboard.this, activity_parent_viewreports.class);
+            intent.putExtra("studentName", studentName); // Pass student ID for Attendance
+            startActivity(intent);
+
+        });
+
+        // Set click listener for the announcement button
+        announcementsButton.setOnClickListener(v -> {
 
             Intent intent = new Intent(activity_parent_dashboard.this, activity_parent_viewreports.class);
             intent.putExtra("studentName", studentName); // Pass student ID for Attendance

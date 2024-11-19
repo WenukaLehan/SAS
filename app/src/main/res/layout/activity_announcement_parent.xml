@@ -2,10 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main10"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F0F0F0">
+    tools:context=".Activity.Announcement_parent">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -17,7 +17,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Attendance"
+            android:text="Announcement"
             android:textColor="#FFFFFF"
             android:textSize="30sp"
             android:textStyle="bold" />
@@ -31,7 +31,7 @@
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/semesterCard"
+        android:id="@+id/AnnouncementCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="19dp"
@@ -54,65 +54,23 @@
                 android:src="@drawable/arrowgreyleft" />
 
             <TextView
-                android:id="@+id/attendanceTitle"
+                android:id="@+id/announcementTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:text="Student Attendance"
+                android:text="School Announcement"
                 android:textColor="@color/gray"
                 android:textSize="21sp"
                 android:textStyle="bold" />
         </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/resultsRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/AnnouncementCard"
+            tools:listitem="@layout/parent_announcement_recyclerview"/>
     </androidx.cardview.widget.CardView>
-
-    <LinearLayout
-        android:id="@+id/tableHeader"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        android:background="#FFFFFF"
-        app:layout_constraintTop_toBottomOf="@id/semesterCard">
-
-        <TextView
-            android:layout_width="0dp"
-            android:id="@+id/Date"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:text="Date"
-            android:textColor="#FF6B6B"
-            android:textSize="19sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Arrived"
-            android:textColor="#FF6B6B"
-            android:textSize="19sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Left"
-            android:textColor="#FF6B6B"
-            android:textSize="19sp"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/resultsRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="250dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tableHeader"
-        tools:listitem="@layout/childattendance_cardview"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
