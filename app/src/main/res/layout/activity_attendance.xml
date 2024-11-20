@@ -81,7 +81,7 @@
             android:layout_height="39dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:text="Date"
+            android:text=" Date"
             android:textColor="@color/red"
             android:textSize="22dp"
             android:textStyle="bold">
