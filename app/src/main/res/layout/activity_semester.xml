@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/main14"
     android:background="#F0F0F0">
 
     <androidx.appcompat.widget.Toolbar
@@ -108,6 +109,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tableHeader" />
+        app:layout_constraintTop_toBottomOf="@id/tableHeader"
+        tools:listitem="@layout/viewmark_cardview"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

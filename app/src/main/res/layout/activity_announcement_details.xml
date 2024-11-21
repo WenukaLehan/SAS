@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main13"
@@ -8,7 +8,11 @@
     android:orientation="vertical"
     android:background="#F5F5F5"
     tools:context=".Activity.Announcement_Details">
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="220dp"
+    android:orientation="vertical"
+    android:layout_margin="18sp">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -18,36 +22,43 @@
         android:textSize="24sp"
         android:layout_gravity="center"
         android:layout_marginBottom="12dp"
-        android:textColor="@color/gg"/>
-    <ImageView
-        android:layout_width="400dp"
-        android:layout_height="200dp"
-        android:id="@+id/detailImage"
-        android:padding="8dp"
-        android:layout_gravity="center"
-        android:src="@drawable/image1"
-        android:scaleType="fitXY"/>
+        android:textColor="@color/pp"/>
 
-    <EditText
+    <TextView
         android:id="@+id/announcementDetailMsg"
         android:layout_width="match_parent"
-        android:layout_height="244dp"
-        android:layout_marginTop="10dp"
-        android:padding="20dp"
+        android:layout_height="69dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginBottom="12dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
         android:text="message"
         android:textColor="@color/black"
-        android:textSize="18sp" />
-    <TextView
+        android:textSize="20sp" />
+
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:padding="20dp"
-        android:text="announcementDetailSender"
-        android:layout_gravity="center"
-        android:id="@+id/announcementDetailSender"
-        android:textSize="18sp"
-        android:textColor="@color/pp"/>
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="18sp">
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:layout_alignParentEnd="true"
+    android:text="OK"
+    android:id="@+id/announcementDetailOK"
+    android:textColor="@color/white"
+    android:background="@drawable/btnbg"/>
+
+    </RelativeLayout>
 
 
 
 </LinearLayout>
+
+
+
+</RelativeLayout>

@@ -108,6 +108,7 @@
                 android:background="@android:color/white"
                 android:gravity="top"
                 android:hint="Type the announcement"
+                android:textColor="@color/black"
                 android:padding="8dp"
                 android:textColorHint="#CCCCCC" />
         </LinearLayout>

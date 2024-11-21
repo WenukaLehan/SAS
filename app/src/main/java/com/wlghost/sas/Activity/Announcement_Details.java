@@ -31,16 +31,16 @@ public class Announcement_Details extends AppCompatActivity {
         // Initialize UI components
         announcementTitle = findViewById(R.id.announcementDetailType);
         announcementMsg = findViewById(R.id.announcementDetailMsg);
-        announcementSender = findViewById(R.id.announcementDetailSender);
+
+
 
         // Retrieve the Announcement object from Intent
         Announcement announcement = (Announcement) getIntent().getSerializableExtra("announcement");
 
         // Populate UI with Announcement details
         if (announcement != null) {
-            announcementTitle.setText("Title: " + announcement.getMsg());
+            announcementTitle.setText("Title: " + announcement.getType());
             announcementMsg.setText("Message: " + announcement.getMsg());
-            announcementSender.setText("Sender: " + announcement.getSender());
         }
     }
 }

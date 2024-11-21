@@ -44,11 +44,9 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<AnnouncementAdapte
         holder.message.setText(announcement.getMsg());
 
 
-        // Set click listener to navigate to details
+        // Set a click listener to display the popup dialog
         holder.itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(context, Announcement_Details.class);
-            intent.putExtra("announcement", announcement); // Pass Announcement object
-            context.startActivity(intent);
+            showPopupDialog(context, announcement); // Show popup dialog with the selected announcement
         });
     }
 
@@ -65,5 +63,40 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<AnnouncementAdapte
             announcementTitle = itemView.findViewById(R.id.announcementTitle);
             message = itemView.findViewById(R.id.msg);
         }
+    }
+
+    /**
+     * Show a popup dialog to display the announcement details.
+     * @param context The context in which the dialog is shown.
+     * @param announcement The announcement object containing the details to display.
+     */
+    private void showPopupDialog(Context context, Announcement announcement) {
+        // Create an AlertDialog
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(context);
+        builder.setCancelable(false); // Prevent dialog dismissal on outside touch
+
+        // Inflate the custom layout (announcement_details.xml)
+        View dialogView = LayoutInflater.from(context).inflate(R.layout.activity_announcement_details, null);
+
+        // Initialize UI components from the dialog layout
+        TextView announcementType = dialogView.findViewById(R.id.announcementDetailType);
+        TextView announcementMessage = dialogView.findViewById(R.id.announcementDetailMsg);
+        TextView okButton = dialogView.findViewById(R.id.announcementDetailOK);
+
+        // Set announcement data in the popup
+        announcementType.setText(announcement.getType());
+        announcementMessage.setText(announcement.getMsg());
+
+        // Set the custom layout to the AlertDialog
+        builder.setView(dialogView);
+
+        // Create the dialog instance
+        final androidx.appcompat.app.AlertDialog dialog = builder.create();
+
+        // Set a click listener for the "OK" button to close the dialog
+        okButton.setOnClickListener(v -> dialog.dismiss());
+
+        // Show the dialog
+        dialog.show();
     }
 }
