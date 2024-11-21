@@ -36,7 +36,39 @@ public class MarksAdapter extends RecyclerView.Adapter<MarksAdapter.MarkViewHold
         Mark mark = marksList.get(position);
         holder.subjectTextView.setText(mark.getSubject());
         holder.markTextView.setText(mark.getMarks());
-        holder.gradeTextView.setText(mark.getGrade());
+        holder.gradeTextView.setText(getGrade(Integer.parseInt(mark.getMarks())));
+        switch (getGrade(Integer.parseInt(mark.getMarks()))) {
+            case "A":
+                holder.gradeTextView.setTextColor(context.getResources().getColor(R.color.green));
+                break;
+            case "B":
+                holder.gradeTextView.setTextColor(context.getResources().getColor(R.color.yellow));
+                break;
+            case "C":
+                holder.gradeTextView.setTextColor(context.getResources().getColor(R.color.orange));
+                break;
+            case "S":
+                holder.gradeTextView.setTextColor(context.getResources().getColor(R.color.orangeDarck));
+                break;
+            case "F":
+                holder.gradeTextView.setTextColor(context.getResources().getColor(R.color.red));
+                break;
+        }
+
+    }
+
+    private String getGrade(int marks) {
+        if (marks >= 75) {
+            return "A";
+        } else if (marks >= 65) {
+            return "B";
+        } else if (marks >= 55) {
+            return "C";
+        } else if (marks >= 35) {
+            return "S";
+        } else {
+            return "F";
+        }
     }
 
     @Override

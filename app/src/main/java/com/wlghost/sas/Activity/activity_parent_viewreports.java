@@ -38,22 +38,18 @@ public class activity_parent_viewreports extends AppCompatActivity {
         
         // Display student name
         TextView viewReportTitle = findViewById(R.id.viewreport);
-        viewReportTitle.setText("Student Name: " + studentName);
+        viewReportTitle.setText("Student Name: " + studentId);
 
         // Set listener for RadioGroup
         semesterRadioGroup.setOnCheckedChangeListener((group, checkedId) -> {
-            RadioButton selectedButton = findViewById(checkedId);
-
-            if (selectedButton != null) {
-                // Get semester key from selected button ID
-                String semester = getSemesterKey(selectedButton.getId());
-                if (semester != null) {
-                    // Navigate to semester page with semester and studentId
-                    navigateToSemesterPage(studentId, semester);
-                } else {
-                    Toast.makeText(this, "Invalid semester selected.", Toast.LENGTH_SHORT).show();
-                }
+            if(checkedId == R.id.firstSemester) {
+                navigateToSemesterPage(studentId, "1stSem");
+            } else if(checkedId == R.id.secondSemester) {
+                navigateToSemesterPage(studentId, "2ndSem");
+            } else if(checkedId == R.id.thirdSemester) {
+                navigateToSemesterPage(studentId, "3rdSem");
             }
+
         });
 
 
@@ -67,20 +63,6 @@ public class activity_parent_viewreports extends AppCompatActivity {
     }
 
 
-    /**
-     * Maps the selected RadioButton ID to the corresponding semester key.
-     */
-    private String getSemesterKey(int radioButtonId) {
-        if (radioButtonId == R.id.firstSemester) {
-            return "1stSem";
-        } else if (radioButtonId == R.id.secondSemester) {
-            return "2ndSem";
-        } else if (radioButtonId == R.id.thirdSemester) {
-            return "3rdSem";
-        } else {
-            return null; // Handle invalid cases
-        }
-    }
 
     /**
      * Navigates to the semester page with the selected semester and student ID.

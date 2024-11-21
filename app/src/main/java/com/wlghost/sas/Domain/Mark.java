@@ -3,12 +3,10 @@ package com.wlghost.sas.Domain;
 public class Mark {
     private String subject;
     private String marks;
-    private String grade;
 
-    public Mark(String subject, String marks, String grade) {
+    public Mark(String subject, String marks) {
         this.subject = subject;
         this.marks = marks;
-        this.grade = grade;
     }
 
     public String getSubject() {
@@ -17,9 +15,5 @@ public class Mark {
 
     public String getMarks() {
         return marks;
-    }
-
-    public String getGrade() {
-        return grade;
     }
 }
