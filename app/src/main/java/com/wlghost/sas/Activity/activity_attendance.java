@@ -21,11 +21,13 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.wlghost.sas.Adapter.AttendanceAdapter;
 import com.wlghost.sas.Domain.AttendanceModel;
+import com.wlghost.sas.Helper.SessionManager;
 import com.wlghost.sas.Helper.dbCon;
 import com.wlghost.sas.R;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -39,6 +41,8 @@ public class activity_attendance extends AppCompatActivity {
     private DocumentReference db;
     private String teacherId = "200401"; // Replace with dynamic retrieval if needed
     private static final String TAG = "activity_attendance";
+    private String currentDateg;
+    private SessionManager sessionManager;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -50,13 +54,15 @@ public class activity_attendance extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        sessionManager = new SessionManager(this);
+        teacherId = sessionManager.getUserId();
 
         // Inside onCreate method
         TextView currentDate = findViewById(R.id.currentDate);
 
         // Get the current date
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
-        String currentDateg = sdf.format(new Date());
+        currentDateg = sdf.format(new Date());
 
         // Set the date to the TextView
         currentDate.setText(currentDateg);
@@ -76,7 +82,7 @@ public class activity_attendance extends AppCompatActivity {
 
     private void loadAttendanceData() {
         try {
-            db.collection("teachers").document("200401")
+            db.collection("teachers").document(teacherId)
                     .get()
                     .addOnSuccessListener(teacherDoc -> {
                         if (teacherDoc.exists()) {
@@ -124,7 +130,7 @@ public class activity_attendance extends AppCompatActivity {
         attendanceList.clear();
 
         for (String studentId : studentIds) {
-            db.collection("attendence").document("16-11-2024").collection("students")
+            db.collection("attendence").document(currentDateg).collection("students")
                     .whereEqualTo("id", studentId)
                     .get()
                     .addOnCompleteListener(task -> {

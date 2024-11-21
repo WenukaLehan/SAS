@@ -34,8 +34,11 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.At
         AttendanceModel attendance = attendanceList.get(position);
         holder.studentIdTextView.setText(attendance.getStudentId());
         holder.attendanceStatusTextView.setText(attendance.getAttendanceStatus());
-
-
+        if (attendance.getAttendanceStatus().equals("Present")) {
+            holder.attendanceStatusTextView.setTextColor(holder.itemView.getContext().getResources().getColor(R.color.green));
+        } else {
+            holder.attendanceStatusTextView.setTextColor(holder.itemView.getContext().getResources().getColor(R.color.red));
+        }
     }
 
     @Override
