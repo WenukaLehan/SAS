@@ -140,7 +140,7 @@
                 android:layout_marginTop="5dp"
                 android:background="#FFFFFF"
                 android:padding="16dp"
-                tools:listitem="@layout/activity_item_addmarks" />
+                tools:listitem="@layout/activity_item_viewmarks" />
 
         </ScrollView>
     </LinearLayout>

@@ -39,7 +39,7 @@ public class StudentAdapterViewMarks extends RecyclerView.Adapter<StudentAdapter
     public void onBindViewHolder(@NonNull StudentAdapterViewMarks.ViewHolder holder, int position) {
         StudentMarks student = studentList.get(position);
         holder.name.setText(student.getName());
-        if(student.getMarks() > 0 ){
+        if(student.getMarks() >= 0 ){
             holder.marks.setText(String.valueOf(student.getMarks()));
         }
         holder.grade.setText(getGrade(student.getMarks()));
