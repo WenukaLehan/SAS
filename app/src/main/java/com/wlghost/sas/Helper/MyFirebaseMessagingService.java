@@ -12,6 +12,7 @@ import androidx.core.app.NotificationCompat;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.wlghost.sas.Activity.Announcement_parent;
+import com.wlghost.sas.Activity.TargetActivity;
 import com.wlghost.sas.R;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
@@ -44,29 +45,32 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             notificationManager.createNotificationChannel(channel);
         }
 
-        // Intent to open a different activity (Replace `TargetActivity` with your activity class)
-        Intent intent = new Intent(this, Announcement_parent.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        // Intent to open the TargetActivity
+        Intent intent = new Intent(this, TargetActivity.class); // Replace `TargetActivity` with your desired activity
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
         // Pass data to the intent if needed
-        //intent.putExtra("messageTitle", title);
-        //intent.putExtra("messageBody", message);
+        intent.putExtra("messageTitle", title);
+        intent.putExtra("messageBody", message);
 
+        // Use FLAG_IMMUTABLE to ensure compatibility with Android 12+
         PendingIntent pendingIntent = PendingIntent.getActivity(
-                this, 0, intent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
+                this,
+                0,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
+        // Build the notification
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, channelId)
                 .setContentTitle(title)
                 .setContentText(message)
                 .setSmallIcon(R.mipmap.ic_launcher_new1_round) // Replace with your app's notification icon
                 .setAutoCancel(true)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setDefaults(NotificationCompat.DEFAULT_ALL)
-                .setVibrate(new  long[]{1000, 1000, 1000, 1000, 1000})
                 .setContentIntent(pendingIntent);
 
+        // Show the notification
         notificationManager.notify(0, notificationBuilder.build());
-        notificationBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(message));
     }
+
 
 }
