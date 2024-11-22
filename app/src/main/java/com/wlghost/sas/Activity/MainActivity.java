@@ -3,15 +3,24 @@ package com.wlghost.sas.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Handler;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import androidx.appcompat.widget.Toolbar;
+
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.navigation.NavigationView;
 import com.wlghost.sas.R;
 
 import java.util.ArrayList;
@@ -26,6 +35,11 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageView menuBtn;
 
+    private DrawerLayout drawerLayout;
+    private Toolbar toolbar;
+    private NavigationView navigationView;
+
+
 
 
     @Override
@@ -33,7 +47,41 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        menuBtn = findViewById(R.id.menuIcon);
+
+        drawerLayout = findViewById(R.id.drawer_layout);
+        toolbar = findViewById(R.id.toolbar);
+        navigationView = findViewById(R.id.nav_view);
+
+        setSupportActionBar(toolbar);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_nav, R.string.close_nav);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+
+        // Handle Navigation Item Clicks
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int id = item.getItemId();
+                if (id == R.id.nav_home) {
+                    Toast.makeText(MainActivity.this, "Home clicked", Toast.LENGTH_SHORT).show();
+                } else if (id == R.id.nav_login) {
+                    Intent loginIntent = new Intent(MainActivity.this, login_activity.class);
+                    startActivity(loginIntent);
+                } else if (id == R.id.nav_logout) {
+                    Toast.makeText(MainActivity.this, "Logout clicked", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(MainActivity.this, "Unknown item clicked", Toast.LENGTH_SHORT).show();
+                }
+                drawerLayout.closeDrawer(GravityCompat.START); // Close the drawer
+                return true;
+            }
+        });
+
+        // Set the navigation view initially hidden
+        drawerLayout.closeDrawer(GravityCompat.START);
+
 
         // Find the ViewPager and Button
         viewPager = findViewById(R.id.imageSlider);
@@ -74,20 +122,18 @@ public class MainActivity extends AppCompatActivity {
                 handler.postDelayed(this, 3000); // Switch image every 3 seconds
             }
         };
-        handler.postDelayed(imageSwitcher, 3000);
 
-        menuBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, login_activity.class);
-                startActivity(intent);
-            }
-        });
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        handler.removeCallbacks(imageSwitcher);  // Stop the slider when activity is destroyed
+    public void onBackPressed() {
+        // Close the drawer when the back button is pressed, if it's open
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
+
+
 }
