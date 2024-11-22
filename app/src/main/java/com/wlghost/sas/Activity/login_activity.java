@@ -1,5 +1,7 @@
 package com.wlghost.sas.Activity;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +19,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.AuthResult;
@@ -25,6 +28,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.wlghost.sas.Helper.SessionManager;
 import com.wlghost.sas.Helper.dbCon;
 import com.wlghost.sas.R;
@@ -200,7 +204,7 @@ public class login_activity extends AppCompatActivity {
                                 String name = document.getString("disName");
                                 String type1 = document.getString("type");
                                 sessionManager.createLoginSession(email, name, id, type1);
-
+                                saveToken(email,table1);
                                 // Use the callback to return the result
                                 callback.onCallback("true");
                                 return ;
@@ -214,6 +218,42 @@ public class login_activity extends AppCompatActivity {
                 });
     }
 
+    private void saveToken(String email, String table) {
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+
+                        // Get the FCM token
+                        String token = task.getResult();
+                        saveTokenToFirestore(email, token, table);
+                        Log.d(TAG, "FCM Token: " + token);
+                    }
+                });
+    }
+
+    private void saveTokenToFirestore(String email, String token, String table) {
+        db.collection(table)
+                .whereEqualTo("email", email)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String id = document.getId();
+                                db.collection(table).document(id).update("token", token);
+                            }
+                        } else {
+                            Log.w(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+    }
 
 
 }
