@@ -3,17 +3,24 @@ package com.wlghost.sas.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
+import androidx.core.view.GravityCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -38,6 +45,11 @@ public class Announcement_parent extends AppCompatActivity {
     private AnnouncementAdapter adapter;
     private List<Announcement> announcements;
     private dbCon dbConnection;
+    private SessionManager sessionManager;
+
+    private DrawerLayout drawerLayout;
+    private Toolbar toolbar;
+    private NavigationView navigationView;
 
 
 
@@ -47,6 +59,42 @@ public class Announcement_parent extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_announcement_parent);
 
+
+        drawerLayout = findViewById(R.id.main);
+        toolbar = findViewById(R.id.toolbar);
+        navigationView = findViewById(R.id.nav_annouce);
+
+        setSupportActionBar(toolbar);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_nav, R.string.close_nav);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+
+        // Handle Navigation Item Clicks
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int id = item.getItemId();
+                if (id == R.id.nav_home) {
+                    Toast.makeText(Announcement_parent.this, "Home clicked", Toast.LENGTH_SHORT).show();
+                } else if (id == R.id.nav_logout) {
+                    if (sessionManager.isLoggedIn()) {
+                        sessionManager.logoutUser();
+                        startActivity(new Intent(Announcement_parent.this, login_activity.class));
+                        finish();
+                        Toast.makeText(Announcement_parent.this, "Logout Successful", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(Announcement_parent.this, "Unknown item clicked", Toast.LENGTH_SHORT).show();
+                }
+                drawerLayout.closeDrawer(GravityCompat.START); // Close the drawer
+                return true;
+            }
+        });
+
+        // Set the navigation view initially hidden
+        drawerLayout.closeDrawer(GravityCompat.START);
 
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {

@@ -2,17 +2,24 @@ package com.wlghost.sas.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
+import androidx.core.view.GravityCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -27,7 +34,7 @@ import java.util.List;
 
 public class activity_choosechild extends AppCompatActivity {
 
-    private ImageView profileImage;
+
     private SessionManager sessionManager;
 
     private RecyclerView recyclerView;
@@ -40,11 +47,52 @@ public class activity_choosechild extends AppCompatActivity {
     private DocumentReference schoolDocRef = DBCon.getDefaultSchoolDocument();
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
+    private DrawerLayout drawerLayout;
+    private Toolbar toolbar;
+    private NavigationView navigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_choosechild);
+
+
+        drawerLayout = findViewById(R.id.main4);
+        toolbar = findViewById(R.id.toolbar);
+        navigationView = findViewById(R.id.nav_choose);
+
+        setSupportActionBar(toolbar);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_nav, R.string.close_nav);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+
+        // Handle Navigation Item Clicks
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int id = item.getItemId();
+                if (id == R.id.nav_home) {
+                    Toast.makeText(activity_choosechild.this, "Home clicked", Toast.LENGTH_SHORT).show();
+                } else if (id == R.id.nav_logout) {
+                    if (sessionManager.isLoggedIn()) {
+                        sessionManager.logoutUser();
+                        startActivity(new Intent(activity_choosechild.this, login_activity.class));
+                        finish();
+                        Toast.makeText(activity_choosechild.this, "Logout Successful", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(activity_choosechild.this, "Unknown item clicked", Toast.LENGTH_SHORT).show();
+                }
+                drawerLayout.closeDrawer(GravityCompat.START); // Close the drawer
+                return true;
+            }
+        });
+
+        // Set the navigation view initially hidden
+        drawerLayout.closeDrawer(GravityCompat.START);
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
@@ -63,18 +111,6 @@ public class activity_choosechild extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
-        });
-
-        sessionManager = new SessionManager(getApplicationContext());
-        profileImage = findViewById(R.id.profile);
-        profileImage.setOnClickListener(v -> {
-            if(sessionManager.isLoggedIn()){
-                sessionManager.logoutUser();
-                startActivity(new Intent(activity_choosechild.this, login_activity.class));
-                finish();
-                Toast.makeText(activity_choosechild.this, "Logout Successful", Toast.LENGTH_SHORT).show();
-            }
-
         });
 
     }

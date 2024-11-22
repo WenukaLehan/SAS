@@ -4,18 +4,25 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
+import androidx.core.view.GravityCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -44,12 +51,53 @@ public class activity_attendance_parent extends AppCompatActivity {
     private dbCon DBCon = new dbCon();
     private SessionManager sessionManager;
     private static final String TAG = "activity_attendance_parent";
+    private DrawerLayout drawerLayout;
+    private Toolbar toolbar;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_attendance_parent);
+
+
+        drawerLayout = findViewById(R.id.main10);
+        toolbar = findViewById(R.id.toolbar);
+        navigationView = findViewById(R.id.nav_atten);
+
+        setSupportActionBar(toolbar);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_nav, R.string.close_nav);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+
+        // Handle Navigation Item Clicks
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int id = item.getItemId();
+                if (id == R.id.nav_home) {
+                    Toast.makeText(activity_attendance_parent.this, "Home clicked", Toast.LENGTH_SHORT).show();
+                } else if (id == R.id.nav_logout) {
+                    if (sessionManager.isLoggedIn()) {
+                        sessionManager.logoutUser();
+                        startActivity(new Intent(activity_attendance_parent.this, login_activity.class));
+                        finish();
+                        Toast.makeText(activity_attendance_parent.this, "Logout Successful", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(activity_attendance_parent.this, "Unknown item clicked", Toast.LENGTH_SHORT).show();
+                }
+                drawerLayout.closeDrawer(GravityCompat.START); // Close the drawer
+                return true;
+            }
+        });
+
+        // Set the navigation view initially hidden
+        drawerLayout.closeDrawer(GravityCompat.START);
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main10), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -76,6 +124,11 @@ public class activity_attendance_parent extends AppCompatActivity {
 
         // Load attendance data for parent's registered students
         loadAttendanceData(studentId);
+
+        
+
+
+
     }
 
     public static ArrayList<String> getLastWeekDates() {
@@ -145,6 +198,9 @@ public class activity_attendance_parent extends AppCompatActivity {
             }
         }
     }
+
+
+
 
 
 
