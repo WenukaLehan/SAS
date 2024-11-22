@@ -63,7 +63,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
                 .setVibrate(new  long[]{1000, 1000, 1000, 1000, 1000})
-                .setSound(android.media.RingtoneManager.getDefaultUri(android.media.RingtoneManager.TYPE_NOTIFICATION))
                 .setContentIntent(pendingIntent);
 
         notificationManager.notify(0, notificationBuilder.build());
