@@ -41,8 +41,7 @@ public class activity_parent_viewreports extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_parent_viewreports);
 
-
-
+        sessionManager = new SessionManager(this);
         drawerLayout = findViewById(R.id.main11);
         toolbar = findViewById(R.id.toolbar);
         navigationView = findViewById(R.id.nav_pareviewrepo);
@@ -60,14 +59,14 @@ public class activity_parent_viewreports extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
                 if (id == R.id.nav_home) {
-                    Toast.makeText(activity_parent_viewreports.this, "Home clicked", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(activity_parent_viewreports.this, activity_choosechild.class);
+                    startActivity(intent);
                 } else if (id == R.id.nav_logout) {
 
                     if (sessionManager.isLoggedIn()) {
                         sessionManager.logoutUser();
                         startActivity(new Intent(activity_parent_viewreports.this, login_activity.class));
                         finish();
-                        Toast.makeText(activity_parent_viewreports.this, "Logout Successful", Toast.LENGTH_SHORT).show();
                     }
 
                 } else {
