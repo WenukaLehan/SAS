@@ -51,11 +51,19 @@ public class activity_choosechild extends AppCompatActivity {
     private Toolbar toolbar;
     private NavigationView navigationView;
 
+    // Progress dialog
+    private CustomPrograssDialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_choosechild);
+
+
+        // Initialize the progress dialog
+        dialog = new CustomPrograssDialog(activity_choosechild.this);
+
 
         sessionManager = new SessionManager(this);
         drawerLayout = findViewById(R.id.main4);
@@ -119,7 +127,11 @@ public class activity_choosechild extends AppCompatActivity {
 
 
         private void loadStudentData() {
+
+            // Show the progress dialog
+            dialog.show();
             String parentEmail = mAuth.getCurrentUser().getEmail();
+
 
             // Access students collection within the school document, filtered by parent email
             schoolDocRef.collection("students")
@@ -128,6 +140,7 @@ public class activity_choosechild extends AppCompatActivity {
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             studentList.clear();
+
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Student student = document.toObject(Student.class);
                                 student.setStId(document.getId());
@@ -135,8 +148,11 @@ public class activity_choosechild extends AppCompatActivity {
                             }
                             adapter.notifyDataSetChanged();
                         } else {
-                            // Handle the error here
+                            Toast.makeText(activity_choosechild.this, "Failed to load data", Toast.LENGTH_SHORT).show();
                         }
+
+                        // Hide the progress dialog
+                        dialog.dismiss();
                     });
 
 

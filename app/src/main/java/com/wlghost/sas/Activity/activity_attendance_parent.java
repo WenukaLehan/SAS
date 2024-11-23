@@ -55,11 +55,16 @@ public class activity_attendance_parent extends AppCompatActivity {
     private Toolbar toolbar;
     private NavigationView navigationView;
 
+    private CustomPrograssDialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_attendance_parent);
+
+        // Initialize the progress dialog
+        dialog = new CustomPrograssDialog(activity_attendance_parent.this);
 
 
         drawerLayout = findViewById(R.id.main10);
@@ -157,6 +162,10 @@ public class activity_attendance_parent extends AppCompatActivity {
     }
 
     private void loadAttendanceData(String studentId) {
+
+        // Show the progress dialog
+        dialog.show();
+
         ArrayList<String> dates = getLastWeekDates();
         List<AttendanceRecord> attendanceList = new ArrayList<>();
         //String date = "17-11-2024";
@@ -188,6 +197,8 @@ public class activity_attendance_parent extends AppCompatActivity {
                             } else {
                                 Log.e(TAG, "No documents found for date: " + date);
                             }
+                            // Hide the progress dialog
+                            dialog.dismiss();
                         })
                         .addOnFailureListener(e -> {
                             Log.e(TAG, "Error fetching students for date: " + date, e);

@@ -62,11 +62,18 @@ public class activity_teacher_show_student extends AppCompatActivity {
     private NavigationView navigationView;
 
 
+    // Progress dialog
+    private CustomPrograssDialog dialog;
+
+
     private Adapter_student_list_mark adapter;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_teacher_show_student);
+
+        // Initialize the progress dialog
+        dialog = new CustomPrograssDialog(activity_teacher_show_student.this);
 
 
         drawerLayout = findViewById(R.id.main);
@@ -127,6 +134,7 @@ public class activity_teacher_show_student extends AppCompatActivity {
     }
 
     private void setName(String userId) {
+
         db.collection("teachers").document(userId).get().addOnSuccessListener(documentSnapshot -> {
             clzId = documentSnapshot.getString("classID");
             initStudents(clzId, semester,year, new StudentListCallback() {
@@ -150,6 +158,7 @@ public class activity_teacher_show_student extends AppCompatActivity {
 
     public void initStudents(String clzId, String semister, String year, StudentListCallback callback) {
 
+        dialog.show();
         studentList = new ArrayList<>();
         db.collection("students")
                 .whereEqualTo("classId", clzId) // Filter by class ID
@@ -189,9 +198,11 @@ public class activity_teacher_show_student extends AppCompatActivity {
                                 }
                             }
                         }
+                        dialog.dismiss();
                     }else{
                         Toast.makeText(this, "No data found", Toast.LENGTH_SHORT).show();
                     }
+                    dialog.dismiss();
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -206,6 +217,10 @@ public class activity_teacher_show_student extends AppCompatActivity {
     }
 
     private void getMarks(String year,String semester,String subId,String id, GetMarksCallback callback) {
+
+
+        dialog.show();
+
         db.collection("marks").document(year).collection(semester)
                 .document(subId)
                 .collection("students")
@@ -227,8 +242,11 @@ public class activity_teacher_show_student extends AppCompatActivity {
                             Log.d(TAG, "get failed with ", task.getException());
                             callback.onResult(0); // or handle accordingly
                         }
+                        dialog.dismiss();
                     }
+
                 })
+
                 .addOnFailureListener(e -> {
                     Log.d(TAG, "get failed with ", e);
                     callback.onResult(0);

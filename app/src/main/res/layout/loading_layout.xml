@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+
+    <ProgressBar
+        android:id="@+id/prograssBar"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:foregroundGravity="center"
+        android:indeterminateTint="#E5C9D7"
+        android:background="@drawable/sb"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/prograssBar"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="8dp"
+        android:gravity="center"
+        android:text="Loading...."
+        android:textAlignment="center" />
+
+
+</RelativeLayout>

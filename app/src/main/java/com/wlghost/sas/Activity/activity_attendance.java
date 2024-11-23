@@ -57,11 +57,17 @@ public class activity_attendance extends AppCompatActivity {
     private Toolbar toolbar;
     private NavigationView navigationView;
 
+    // Progress dialog
+    private CustomPrograssDialog dialog;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_attendance);
+
+        // Initialize the progress dialog
+        dialog = new CustomPrograssDialog(activity_attendance.this);
 
 
         drawerLayout = findViewById(R.id.main6);
@@ -134,6 +140,10 @@ public class activity_attendance extends AppCompatActivity {
     }
 
     private void loadAttendanceData() {
+
+        // Show the progress dialog
+        dialog.show();
+
         try {
             db.collection("teachers").document(teacherId)
                     .get()
@@ -145,6 +155,10 @@ public class activity_attendance extends AppCompatActivity {
                             Toast.makeText(this, "Teacher document not found.", Toast.LENGTH_SHORT).show();
                             Log.e(TAG, "Teacher document not found.");
                         }
+
+                        // Hide the progress dialog
+                        dialog.dismiss();
+
                     })
                     .addOnFailureListener(e -> Log.e(TAG, "Error fetching teacher data: ", e));
         }
@@ -155,6 +169,10 @@ public class activity_attendance extends AppCompatActivity {
     }
 
     private void fetchStudentsForClass(String classId) {
+
+        // Show the progress dialog
+        dialog.show();
+
         db.collection("students")
                 .whereEqualTo("classId", classId)
                 .get()
@@ -172,13 +190,26 @@ public class activity_attendance extends AppCompatActivity {
                             Toast.makeText(activity_attendance.this, "Error fetching student data.", Toast.LENGTH_SHORT).show();
                             Log.e(TAG, "Error fetching student data: ", task.getException());
                         }
+
                     }
+
+
                 })
+
+
                 .addOnFailureListener(e -> Log.e(TAG, "Error fetching students for class: ", e));
+        // Hide the progress dialog
+        dialog.dismiss();
     }
+
+
 
     @SuppressLint("NotifyDataSetChanged")
     private void fetchAttendanceStatus(Map<String, String> studentIds) {
+
+        // Show the progress dialog
+        dialog.show();
+
         // Clear the list to prevent duplicates if the method is called again
         attendanceList.clear();
 
@@ -211,8 +242,15 @@ public class activity_attendance extends AppCompatActivity {
                             adapter.notifyDataSetChanged();
                         }
                     })
+
+
                     .addOnFailureListener(e -> Log.e("wenuka", "Error fetching attendance data: ", e));
+
+            // Hide the progress dialog
+            dialog.dismiss();
         }
+
+
     }
 
 
