@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,7 +45,6 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.At
             AttendanceModel attendance = attendanceList.get(position);
             holder.studentIdTextView.setText(attendance.getName());
             holder.attendanceStatusTextView.setText(attendance.getAttendanceStatus());
-            holder.itemView.setBackground(holder.itemView.getContext().getResources().getDrawable(R.drawable.grey_background));
 
             SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
             try {
@@ -55,11 +55,12 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.At
                         holder.attendanceStatusTextView.setTextColor(holder.itemView.getContext().getResources().getColor(R.color.green));
                         if (attendance.getInTime() != null) {
                             if (time.after(compareTime)) {
-                                holder.itemView.setBackground(holder.itemView.getContext().getResources().getDrawable(R.drawable.error_bg));
+                                holder.layout.setBackground(holder.itemView.getContext().getResources().getDrawable(R.drawable.grey_background));
                             }
                         }
                     } else {
                         holder.attendanceStatusTextView.setTextColor(holder.itemView.getContext().getResources().getColor(R.color.red));
+                        holder.layout.setBackground(holder.itemView.getContext().getResources().getDrawable(R.drawable.error_bg));
                     }
                 }
                 else{
@@ -68,6 +69,7 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.At
 
                     } else {
                         holder.attendanceStatusTextView.setTextColor(holder.itemView.getContext().getResources().getColor(R.color.red));
+                        holder.layout.setBackground(holder.itemView.getContext().getResources().getDrawable(R.drawable.error_bg));
                     }
                 }
             }
@@ -92,15 +94,12 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.At
     static class AttendanceViewHolder extends RecyclerView.ViewHolder {
         TextView studentIdTextView;
         TextView attendanceStatusTextView;
-
-
-
+        RelativeLayout layout;
         public AttendanceViewHolder(@NonNull View itemView) {
             super(itemView);
             studentIdTextView = itemView.findViewById(R.id.studentIdTextView);
             attendanceStatusTextView = itemView.findViewById(R.id.attendanceStatusTextView);
-
-
+            layout = itemView.findViewById(R.id.relativeLayout2);
         }
     }
 }

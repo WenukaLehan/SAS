@@ -49,7 +49,7 @@ public class ChildAttendanceAdapter extends RecyclerView.Adapter<ChildAttendance
                 holder.arrivedTimeTextView.setText(record.getArrivedTime());
                 holder.leftTimeTextView.setText(record.getLeftTime());
                  inTime = sdf.parse(record.getArrivedTime());
-                 compareTime = sdf.parse("12:30:00");
+                 compareTime = sdf.parse("07:30:00");
 
                 if (inTime.after(compareTime)) {
                     holder.itemView.setBackground(mContext.getResources().getDrawable(R.drawable.error_bg));
