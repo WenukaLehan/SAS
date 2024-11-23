@@ -41,7 +41,7 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<AnnouncementAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Announcement announcement = announcements.get(position);
         holder.announcementTitle.setText(announcement.getType());
-        holder.message.setText(announcement.getMsg());
+        //holder.message.setText(announcement.getMsg());
 
 
         // Set a click listener to display the popup dialog
@@ -61,7 +61,7 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<AnnouncementAdapte
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             announcementTitle = itemView.findViewById(R.id.announcementTitle);
-
+           // message = itemView.findViewById(R.id.message);
         }
     }
 

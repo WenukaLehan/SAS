@@ -194,10 +194,10 @@ public class activity_attendance extends AppCompatActivity {
                                     String outTime = attendanceDoc.getString("out_time");
                                     //String attendanceStatus = inTime != null && outTime != null ? "Present" : "Absent";
 
-                                    attendanceList.add(new AttendanceModel(entry.getValue(), "Present", inTime, outTime));
+                                    attendanceList.add(new AttendanceModel(entry.getKey(), "Present", inTime, outTime, entry.getValue()));
                                 }
                             }else{
-                                attendanceList.add(new AttendanceModel(entry.getValue(), "Absent", null, null));
+                                attendanceList.add(new AttendanceModel(entry.getKey(), "Absent", null, null, entry.getValue()));
                             }
                         } else {
                             Log.e("wenuka", "Error fetching attendance data: ", task.getException());

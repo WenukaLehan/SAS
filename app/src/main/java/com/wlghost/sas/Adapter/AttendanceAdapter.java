@@ -1,6 +1,7 @@
 package com.wlghost.sas.Adapter;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.wlghost.sas.Activity.teacher_show_all_attendence;
 import com.wlghost.sas.Domain.AttendanceModel;
 import com.wlghost.sas.R;
 
@@ -40,7 +42,7 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.At
         Date compareTime;
         Date time;
             AttendanceModel attendance = attendanceList.get(position);
-            holder.studentIdTextView.setText(attendance.getStudentId());
+            holder.studentIdTextView.setText(attendance.getName());
             holder.attendanceStatusTextView.setText(attendance.getAttendanceStatus());
             holder.itemView.setBackground(holder.itemView.getContext().getResources().getDrawable(R.drawable.grey_background));
 
@@ -72,6 +74,12 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.At
             catch (Exception e){
                 Toast.makeText(holder.itemView.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
             }
+            holder.itemView.setOnClickListener(v -> {
+                Intent intent = new Intent(holder.itemView.getContext(), teacher_show_all_attendence.class);
+                intent.putExtra("studentId", attendance.getStudentId());
+                intent.putExtra("studentName", attendance.getName());
+                holder.itemView.getContext().startActivity(intent);
+            });
 
     }
 

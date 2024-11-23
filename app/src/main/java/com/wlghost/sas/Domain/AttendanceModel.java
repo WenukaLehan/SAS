@@ -5,6 +5,7 @@ public class AttendanceModel {
     private String attendanceStatus;
     private String inTime;
     private String outTime;
+    private String name;
 
 
 
@@ -12,11 +13,12 @@ public class AttendanceModel {
     // Empty constructor for Firestore
 
     // Constructor
-    public AttendanceModel(String studentId, String attendanceStatus, String inTime, String outTime) {
+    public AttendanceModel(String studentId, String attendanceStatus, String inTime, String outTime, String name) {
         this.studentId = studentId;
         this.attendanceStatus = attendanceStatus;
         this.inTime = inTime;
         this.outTime = outTime;
+        this.name = name;
     }
 
     // Getters
@@ -55,5 +57,13 @@ public class AttendanceModel {
 
     public void setOutTime(String outTime) {
         this.outTime = outTime;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
