@@ -14,11 +14,10 @@
 
 
     <RelativeLayout
-
+        android:id="@+id/attendanceCard"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:background="#DAD6DA"
-        android:backgroundTint="#DAD6DA">
+        android:background="@drawable/green_bg">
 
 
 
@@ -30,6 +29,7 @@
             android:layout_marginTop="20dp"
             android:gravity="center"
             android:text="12/11/24"
+            android:textStyle="bold"
             android:textColor="@color/black"
             android:textSize="16sp" />
 
@@ -40,6 +40,7 @@
             android:layout_marginStart="60dp"
             android:layout_marginTop="20dp"
             android:layout_toEndOf="@id/Date"
+            android:textStyle="bold"
             android:gravity="center"
             android:text="05.05"
             android:textAlignment="center"
@@ -52,6 +53,7 @@
             android:layout_height="30dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
+            android:textStyle="bold"
             android:layout_toEndOf="@id/ArivedTime"
             android:gravity="center"
             android:text="01.30"

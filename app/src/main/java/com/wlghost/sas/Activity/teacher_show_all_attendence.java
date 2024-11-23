@@ -112,7 +112,7 @@ public class teacher_show_all_attendence extends AppCompatActivity {
 
         // Iterate to get previous working days
         int workingDays = dates.size(); // Start with the current size (0 or 1 if today is added)
-        while (workingDays < 5) {
+        while (workingDays < 10) {
             // Move one day back
             calendar.add(Calendar.DAY_OF_YEAR, -1);
 
@@ -139,10 +139,15 @@ public class teacher_show_all_attendence extends AppCompatActivity {
                         .get()
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful() ) {
-                                for (DocumentSnapshot doc : task.getResult()) {
-                                    String inTime = doc.getString("in_time");
-                                    String outTime = doc.getString("out_time");
-                                    attendanceList.add(new AttendanceRecord(date, inTime, outTime));
+                                if(!task.getResult().isEmpty()) {
+                                    for (DocumentSnapshot doc : task.getResult()) {
+                                        String inTime = doc.getString("in_time");
+                                        String outTime = doc.getString("out_time");
+                                        attendanceList.add(new AttendanceRecord(date, inTime, outTime));
+                                    }
+                                }
+                                else{
+                                    attendanceList.add(new AttendanceRecord(date, null, null));
                                 }
                                 // Update the UI on the main thread
                                 runOnUiThread(() -> {
