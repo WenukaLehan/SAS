@@ -107,10 +107,7 @@ public class activity_attendance_parent extends AppCompatActivity {
             return insets;
         });
 
-        // Display current date
-        TextView currentDate = findViewById(R.id.Date);
-        String currentDateg = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
-        currentDate.setText(currentDateg);
+
 
         // Initialize Firestore and UI components
         recyclerView = findViewById(R.id.resultsRecyclerView);
@@ -175,7 +172,6 @@ public class activity_attendance_parent extends AppCompatActivity {
                                     String inTime = doc.getString("in_time");
                                     String outTime = doc.getString("out_time");
                                     attendanceList.add(new AttendanceRecord(date, inTime, outTime));
-                                    Toast.makeText(activity_attendance_parent.this, inTime, Toast.LENGTH_SHORT).show();
                                 }
                                 // Update the UI on the main thread
                                 runOnUiThread(() -> {

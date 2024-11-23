@@ -1,21 +1,28 @@
 package com.wlghost.sas.Activity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
+import androidx.core.view.GravityCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -46,11 +53,55 @@ public class activity_attendance extends AppCompatActivity {
     private String currentDateg;
     private SessionManager sessionManager;
 
+    private DrawerLayout drawerLayout;
+    private Toolbar toolbar;
+    private NavigationView navigationView;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_attendance);
+
+
+        drawerLayout = findViewById(R.id.main6);
+        toolbar = findViewById(R.id.toolbar);
+        navigationView = findViewById(R.id.nav_teacheratten);
+
+        setSupportActionBar(toolbar);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_nav, R.string.close_nav);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+
+        // Handle Navigation Item Clicks
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int id = item.getItemId();
+                if (id == R.id.nav_home) {
+                    Intent intent = new Intent(activity_attendance.this, activity_teacher_dashboard.class);
+                    startActivity(intent);
+                }  else if (id == R.id.nav_logout) {
+                    if(sessionManager.isLoggedIn()){
+                        sessionManager.logoutUser();
+                        startActivity(new Intent(activity_attendance.this, login_activity.class));
+                        finish();
+                        Toast.makeText(activity_attendance.this, "Logout Successful", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(activity_attendance.this, "Unknown item clicked", Toast.LENGTH_SHORT).show();
+                }
+                drawerLayout.closeDrawer(GravityCompat.START); // Close the drawer
+                return true;
+            }
+        });
+
+        // Set the navigation view initially hidden
+        drawerLayout.closeDrawer(GravityCompat.START);
+
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main6), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);

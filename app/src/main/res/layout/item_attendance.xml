@@ -20,8 +20,8 @@
         android:id="@+id/attendanceStatusTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="170dp"
+        android:paddingLeft="210dp"
         android:textStyle="bold"
-        android:text="Attendance Status"
+        android:text="present"
         android:textSize="18sp" />
 </LinearLayout>

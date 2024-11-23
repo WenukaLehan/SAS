@@ -63,7 +63,8 @@ public class activity_parent_dashboard extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
                 if (id == R.id.nav_home) {
-                    Toast.makeText(activity_parent_dashboard.this, "Home clicked", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(activity_parent_dashboard.this, activity_choosechild.class);
+                    startActivity(intent);
                 }  else if (id == R.id.nav_logout) {
                     if(sessionManager.isLoggedIn()){
                         sessionManager.logoutUser();

@@ -21,6 +21,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.navigation.NavigationView;
+import com.wlghost.sas.Helper.SessionManager;
 import com.wlghost.sas.R;
 
 import java.util.ArrayList;
@@ -34,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
     private Runnable imageSwitcher;
 
     private ImageView menuBtn;
+
+    SessionManager sessionManager;
 
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
@@ -70,7 +73,12 @@ public class MainActivity extends AppCompatActivity {
                     Intent loginIntent = new Intent(MainActivity.this, login_activity.class);
                     startActivity(loginIntent);
                 } else if (id == R.id.nav_logout) {
-                    Toast.makeText(MainActivity.this, "Logout clicked", Toast.LENGTH_SHORT).show();
+                    if(sessionManager.isLoggedIn()){
+                        sessionManager.logoutUser();
+                        startActivity(new Intent(MainActivity.this, login_activity.class));
+                        finish();
+                        Toast.makeText(MainActivity.this, "Logout Successful", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     Toast.makeText(MainActivity.this, "Unknown item clicked", Toast.LENGTH_SHORT).show();
                 }

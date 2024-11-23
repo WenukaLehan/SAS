@@ -36,18 +36,19 @@
             android:textColor="@color/black"
             android:textSize="20sp"
             android:layout_marginTop="20dp"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="70dp"
+            android:gravity="center"
             android:layout_toEndOf="@id/recImage"/>
 
         <TextView
-            android:id="@+id/msg"
+            android:id="@+id/click"
             android:layout_width="80dp"
             android:layout_height="30dp"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="20dp"
-            android:layout_toEndOf="@id/announcementTitle"
+            android:layout_marginStart="160dp"
+            android:layout_marginTop="50dp"
+            android:layout_alignParentBottom="@id/announcementTitle"
             android:gravity="center"
-            android:text="msg"
+            android:text="click here"
             android:textAlignment="center"
             android:textColor="@color/gg"
             android:textSize="16sp" />

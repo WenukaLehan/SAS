@@ -1,19 +1,28 @@
 package com.wlghost.sas.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
+import androidx.core.view.GravityCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.DocumentReference;
 import com.wlghost.sas.Adapter.StudentAdapterViewMarks;
 import com.wlghost.sas.Domain.StudentMarks;
+import com.wlghost.sas.Helper.SessionManager;
 import com.wlghost.sas.Helper.dbCon;
 import com.wlghost.sas.R;
 
@@ -32,11 +41,61 @@ public class activity_show_subject_marks extends AppCompatActivity {
     private RecyclerView recyclerView;
 
     private TextView stName,Total,avg1,place1;
+
+
+    private SessionManager sessionManager;
+
+    private DrawerLayout drawerLayout;
+    private Toolbar toolbar;
+    private NavigationView navigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_show_subject_marks);
+
+
+        drawerLayout = findViewById(R.id.showSub);
+        toolbar = findViewById(R.id.toolbar);
+        navigationView = findViewById(R.id.nav_teacchershowsubject);
+
+        setSupportActionBar(toolbar);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_nav, R.string.close_nav);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+
+        // Handle Navigation Item Clicks
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int id = item.getItemId();
+                if (id == R.id.nav_home) {
+                    Intent intent = new Intent(activity_show_subject_marks.this, activity_teacher_dashboard.class);
+                    startActivity(intent);
+                }  else if (id == R.id.nav_logout) {
+                    if(sessionManager.isLoggedIn()){
+                        sessionManager.logoutUser();
+                        startActivity(new Intent(activity_show_subject_marks.this, login_activity.class));
+                        finish();
+                        Toast.makeText(activity_show_subject_marks.this, "Logout Successful", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(activity_show_subject_marks.this, "Unknown item clicked", Toast.LENGTH_SHORT).show();
+                }
+                drawerLayout.closeDrawer(GravityCompat.START); // Close the drawer
+                return true;
+            }
+        });
+
+        // Set the navigation view initially hidden
+        drawerLayout.closeDrawer(GravityCompat.START);
+
+
+
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.showSub), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
