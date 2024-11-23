@@ -142,7 +142,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="5dp"
         android:background="#FFFFFF"
-        android:padding="16dp"
+        android:padding="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tableHeader"
         app:layout_constraintVertical_bias="1.0"
@@ -150,7 +150,6 @@
         tools:listitem="@layout/item_attendance" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_teacheratten"
@@ -165,6 +164,7 @@
         app:menu="@menu/nav_user"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteY="16dp" />
+
 
 
 </androidx.drawerlayout.widget.DrawerLayout>

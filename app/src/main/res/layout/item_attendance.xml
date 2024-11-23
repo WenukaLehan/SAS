@@ -1,27 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="16dp">
+    android:layout_height="80dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cartItem"
+    android:layout_marginStart="12dp"
+    android:layout_marginEnd="12dp"
+    android:layout_marginHorizontal="10dp"
+    android:layout_marginVertical="10dp"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="8dp">
 
-    <TextView
-        android:id="@+id/studentIdTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Student ID"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="8dp"/>
 
-    <TextView
-        android:id="@+id/attendanceStatusTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingLeft="210dp"
-        android:textStyle="bold"
-        android:text="present"
-        android:textSize="18sp" />
-</LinearLayout>
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="#DAD6DA"
+        android:backgroundTint="#DAD6DA">
+
+
+
+        <TextView
+            android:id="@+id/studentIdTextView"
+            android:layout_width="120dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:text="Student ID"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/attendanceStatusTextView"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="150dp"
+            android:layout_marginTop="20dp"
+            android:layout_toEndOf="@id/studentIdTextView"
+            android:gravity="center"
+            android:text="present"
+            android:textAlignment="center"
+            android:textColor="@color/pp"
+            android:textSize="16sp" />
+
+
+
+
+    </RelativeLayout>
+
+
+</androidx.cardview.widget.CardView>
