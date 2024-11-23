@@ -57,7 +57,7 @@ public class activity_choosechild extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_choosechild);
 
-
+        sessionManager = new SessionManager(this);
         drawerLayout = findViewById(R.id.main4);
         toolbar = findViewById(R.id.toolbar);
         navigationView = findViewById(R.id.nav_choose);

@@ -3,6 +3,8 @@ package com.wlghost.sas.Domain;
 public class AttendanceModel {
     private String studentId;
     private String attendanceStatus;
+    private String inTime;
+    private String outTime;
 
 
 
@@ -10,12 +12,11 @@ public class AttendanceModel {
     // Empty constructor for Firestore
 
     // Constructor
-    public AttendanceModel(String studentId, String attendanceStatus) {
+    public AttendanceModel(String studentId, String attendanceStatus, String inTime, String outTime) {
         this.studentId = studentId;
         this.attendanceStatus = attendanceStatus;
-
-
-
+        this.inTime = inTime;
+        this.outTime = outTime;
     }
 
     // Getters
@@ -38,5 +39,21 @@ public class AttendanceModel {
 
     public void setAttendanceStatus(String attendanceStatus) {
         this.attendanceStatus = attendanceStatus;
+    }
+
+    public String getInTime() {
+        return inTime;
+    }
+
+    public void setInTime(String inTime) {
+        this.inTime = inTime;
+    }
+
+    public String getOutTime() {
+        return outTime;
+    }
+
+    public void setOutTime(String outTime) {
+        this.outTime = outTime;
     }
 }

@@ -29,8 +29,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class activity_attendance extends AppCompatActivity {
 
@@ -109,9 +111,9 @@ public class activity_attendance extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            List<String> studentIds = new ArrayList<>();
+                            Map<String, String> studentIds = new HashMap<>();
                             for (DocumentSnapshot studentDoc : task.getResult()) {
-                                studentIds.add(studentDoc.getId());
+                                studentIds.put(studentDoc.getId(), studentDoc.getString("disName"));
                             }
                             fetchAttendanceStatus(studentIds);
                         }
@@ -125,25 +127,29 @@ public class activity_attendance extends AppCompatActivity {
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private void fetchAttendanceStatus(List<String> studentIds) {
+    private void fetchAttendanceStatus(Map<String, String> studentIds) {
         // Clear the list to prevent duplicates if the method is called again
         attendanceList.clear();
 
-        for (String studentId : studentIds) {
+        for (Map.Entry<String, String> entry : studentIds.entrySet()) {
             db.collection("attendence").document(currentDateg).collection("students")
-                    .whereEqualTo("id", studentId)
+                    .whereEqualTo("id", entry.getKey())
                     .get()
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful() && task.getResult() != null) {
-                            for (DocumentSnapshot attendanceDoc : task.getResult()) {
-                                String inTime = attendanceDoc.getString("in_time");
-                                String outTime = attendanceDoc.getString("out_time");
-                                String attendanceStatus = inTime != null && outTime != null ? "Present" : "Absent";
+                            if (!task.getResult().isEmpty()) {
+                                for (DocumentSnapshot attendanceDoc : task.getResult()) {
+                                    String inTime = attendanceDoc.getString("in_time");
+                                    String outTime = attendanceDoc.getString("out_time");
+                                    //String attendanceStatus = inTime != null && outTime != null ? "Present" : "Absent";
 
-                                attendanceList.add(new AttendanceModel(studentId, attendanceStatus));
+                                    attendanceList.add(new AttendanceModel(entry.getValue(), "Present", inTime, outTime));
+                                }
+                            }else{
+                                attendanceList.add(new AttendanceModel(entry.getValue(), "Absent", null, null));
                             }
                         } else {
-                            Log.e(TAG, "Error fetching attendance data: ", task.getException());
+                            Log.e("wenuka", "Error fetching attendance data: ", task.getException());
                         }
 
                         // Notify the adapter after all data is fetcheddddddddd
@@ -154,7 +160,7 @@ public class activity_attendance extends AppCompatActivity {
                             adapter.notifyDataSetChanged();
                         }
                     })
-                    .addOnFailureListener(e -> Log.e(TAG, "Error fetching attendance data: ", e));
+                    .addOnFailureListener(e -> Log.e("wenuka", "Error fetching attendance data: ", e));
         }
     }
 

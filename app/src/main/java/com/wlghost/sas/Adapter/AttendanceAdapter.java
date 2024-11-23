@@ -1,9 +1,11 @@
 package com.wlghost.sas.Adapter;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,6 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.wlghost.sas.Domain.AttendanceModel;
 import com.wlghost.sas.R;
 
+import java.sql.Time;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.AttendanceViewHolder> {
@@ -29,16 +34,45 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.At
         return new AttendanceViewHolder(view);
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     public void onBindViewHolder(@NonNull AttendanceViewHolder holder, int position) {
-        AttendanceModel attendance = attendanceList.get(position);
-        holder.studentIdTextView.setText(attendance.getStudentId());
-        holder.attendanceStatusTextView.setText(attendance.getAttendanceStatus());
-        if (attendance.getAttendanceStatus().equals("Present")) {
-            holder.attendanceStatusTextView.setTextColor(holder.itemView.getContext().getResources().getColor(R.color.green));
-        } else {
-            holder.attendanceStatusTextView.setTextColor(holder.itemView.getContext().getResources().getColor(R.color.red));
-        }
+        Date compareTime;
+        Date time;
+            AttendanceModel attendance = attendanceList.get(position);
+            holder.studentIdTextView.setText(attendance.getStudentId());
+            holder.attendanceStatusTextView.setText(attendance.getAttendanceStatus());
+            holder.itemView.setBackground(holder.itemView.getContext().getResources().getDrawable(R.drawable.grey_background));
+
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+            try {
+                if(attendance.getInTime()!=null) {
+                    compareTime = sdf.parse("07:30:00");
+                    time = sdf.parse(attendance.getInTime());
+                    if (attendance.getAttendanceStatus().equals("Present")) {
+                        holder.attendanceStatusTextView.setTextColor(holder.itemView.getContext().getResources().getColor(R.color.green));
+                        if (attendance.getInTime() != null) {
+                            if (time.after(compareTime)) {
+                                holder.itemView.setBackground(holder.itemView.getContext().getResources().getDrawable(R.drawable.error_bg));
+                            }
+                        }
+                    } else {
+                        holder.attendanceStatusTextView.setTextColor(holder.itemView.getContext().getResources().getColor(R.color.red));
+                    }
+                }
+                else{
+                    if (attendance.getAttendanceStatus().equals("Present")) {
+                        holder.attendanceStatusTextView.setTextColor(holder.itemView.getContext().getResources().getColor(R.color.green));
+
+                    } else {
+                        holder.attendanceStatusTextView.setTextColor(holder.itemView.getContext().getResources().getColor(R.color.red));
+                    }
+                }
+            }
+            catch (Exception e){
+                Toast.makeText(holder.itemView.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+
     }
 
     @Override

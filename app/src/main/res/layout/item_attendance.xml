@@ -11,7 +11,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Student ID"
-        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:textSize="18sp"
         android:textStyle="bold"
         android:layout_marginBottom="8dp"/>
 
@@ -22,5 +23,5 @@
         android:paddingLeft="170dp"
         android:textStyle="bold"
         android:text="Attendance Status"
-        android:textSize="16sp" />
+        android:textSize="18sp" />
 </LinearLayout>

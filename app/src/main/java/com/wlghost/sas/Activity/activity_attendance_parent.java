@@ -72,6 +72,8 @@ public class activity_attendance_parent extends AppCompatActivity {
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
+        sessionManager = new SessionManager(this);
+
 
         // Handle Navigation Item Clicks
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -105,8 +107,6 @@ public class activity_attendance_parent extends AppCompatActivity {
             return insets;
         });
 
-        sessionManager = new SessionManager(this);
-
         // Display current date
         TextView currentDate = findViewById(R.id.Date);
         String currentDateg = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
@@ -117,7 +117,7 @@ public class activity_attendance_parent extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // Get parent's email from intent
-        String studentId = sessionManager.getUserId();
+        String studentId = getIntent().getStringExtra("studentId");
 
         // Handle back button click
         findViewById(R.id.attcBack).setOnClickListener(v -> finish());

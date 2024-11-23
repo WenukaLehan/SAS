@@ -79,16 +79,8 @@ public class activity_parent_viewreports extends AppCompatActivity {
 
         // Set the navigation view initially hidden
         drawerLayout.closeDrawer(GravityCompat.START);
-
-
-
-
-
-
         // Initialize RadioGroup
         semesterRadioGroup = findViewById(R.id.semesterRadioGroup);
-
-
         // Retrieve student data passed from Parent Dashboard
         String studentId = getIntent().getStringExtra("studentId");
         String studentName = getIntent().getStringExtra("studentName");

@@ -109,6 +109,7 @@ public class activity_parent_dashboard extends AppCompatActivity {
 
             Intent intent = new Intent(activity_parent_dashboard.this, activity_attendance_parent.class);
             intent.putExtra("studentName", studentName); // Pass student ID for Attendance
+            intent.putExtra("studentId", studentId);
             startActivity(intent);
 
         });
@@ -128,6 +129,7 @@ public class activity_parent_dashboard extends AppCompatActivity {
 
             Intent intent = new Intent(activity_parent_dashboard.this, Announcement_parent.class);
             intent.putExtra("studentName", studentName); // Pass student ID for Attendance
+            intent.putExtra("studentId", studentId);
             startActivity(intent);
 
         });
