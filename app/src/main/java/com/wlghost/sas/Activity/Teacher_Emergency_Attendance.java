@@ -18,6 +18,8 @@ import androidx.core.view.WindowInsetsCompat;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
@@ -30,6 +32,7 @@ import com.google.firebase.messaging.RemoteMessage;
 import com.wlghost.sas.Helper.dbCon;
 import com.wlghost.sas.R;
 
+import java.io.FileInputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -164,86 +167,5 @@ public class Teacher_Emergency_Attendance extends AppCompatActivity {
                });
     }
 
-
-
-    public void sendMessageToToken(String token, String title, String body) {
-            Toast.makeText(Teacher_Emergency_Attendance.this, "elama", Toast.LENGTH_SHORT).show();
-            // Create a new RemoteMessage with the recipient's token
-            try {
-                RemoteMessage message = new RemoteMessage.Builder(token)
-                        .setMessageId(String.valueOf(System.currentTimeMillis())) // Optional: Set a message ID
-                        .addData("title", title) // Add data for the notification title
-                        .addData("body", body) // Add data for the notification body
-                        .build();
-
-                FirebaseMessaging.getInstance().send(message);
-                Toast.makeText(this, "success", Toast.LENGTH_SHORT).show();
-            }
-            catch (Exception e)
-            {
-                Toast.makeText(this,"wenuka"+ e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-            //check msg sent or not
-
-        }
-
-    private void listenToFirestoreUpdates() {
-        // Listening to the "items" collection
-        db.collection("attendence").document(date).collection("students")
-                .addSnapshotListener((queryDocumentSnapshots, e) -> {
-                    if (e != null) {
-                        Toast.makeText(Teacher_Emergency_Attendance.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    if (queryDocumentSnapshots != null) {
-                        for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-                            String studentId = document.getString("id");
-                            String status = document.getString("status");
-                            String inTime = document.getString("inTime");
-                            String outTime = document.getString("outTime");
-                            String reson = document.getString("reson");
-                            String token = document.getString("token");
-                        }
-                    }
-                });
-    }
-
-    public void sendNotification(String title, String body, String token) {
-        try {
-            // Create the FCM message JSON payload
-            String messageJson = "{"
-                    + "\"to\":\"" + token + "\","
-                    + "\"notification\":{"
-                    + "\"title\":\"" + title + "\","
-                    + "\"body\":\"" + body + "\""
-                    + "}"
-                    + "}";
-
-            // Create connection to FCM
-            URL url = new URL(FCM_URL);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setDoOutput(true);
-            conn.setRequestMethod("POST");
-            conn.setRequestProperty("Authorization", "key=" + SERVER_KEY);
-            conn.setRequestProperty("Content-Type", "application/json");
-
-            // Write the JSON payload
-            OutputStream outputStream = conn.getOutputStream();
-            outputStream.write(messageJson.getBytes(StandardCharsets.UTF_8));
-            outputStream.flush();
-            outputStream.close();
-
-            // Get the response
-            int responseCode = conn.getResponseCode();
-            if (responseCode == HttpURLConnection.HTTP_OK) {
-                System.out.println("Notification sent successfully!");
-            } else {
-                System.err.println("Failed to send notification. HTTP response code: " + responseCode);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println("Error sending FCM notification: " + e.getMessage());
-        }
-    }
 
 }
