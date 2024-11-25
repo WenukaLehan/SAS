@@ -47,11 +47,23 @@ public class teacher_show_all_attendence extends AppCompatActivity {
     private Toolbar toolbar;
     private NavigationView navigationView;
     TextView attendanceTitle;
+
+    // Progress dialog
+    private CustomPrograssDialog dialog;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_teacher_show_all_attendence);
+
+
+        // Initialize the progress dialog
+        dialog = new CustomPrograssDialog(teacher_show_all_attendence.this);
+
+
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.mainAt), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -128,6 +140,7 @@ public class teacher_show_all_attendence extends AppCompatActivity {
     }
 
     private void loadAttendanceData(String studentId) {
+        dialog.show();
         ArrayList<String> dates = getLastWeekDates();
         List<AttendanceRecord> attendanceList = new ArrayList<>();
         //String date = "17-11-2024";
@@ -159,6 +172,7 @@ public class teacher_show_all_attendence extends AppCompatActivity {
                             } else {
                                 Log.e(TAG, "No documents found for date: " + date);
                             }
+                            dialog.dismiss();
                         })
                         .addOnFailureListener(e -> {
                             Log.e(TAG, "Error fetching students for date: " + date, e);

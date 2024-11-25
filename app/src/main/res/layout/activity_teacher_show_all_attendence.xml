@@ -138,6 +138,8 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_attenT"
         android:layout_width="wrap_content"
@@ -146,7 +148,6 @@
         android:layout_marginEnd="128dp"
         app:headerLayout="@layout/nav_header"
         app:itemIconTint="@color/red"
-        android:visibility="gone"
         app:itemTextColor="@color/red"
         app:layout_constraintEnd_toEndOf="parent"
         app:menu="@menu/nav_user"

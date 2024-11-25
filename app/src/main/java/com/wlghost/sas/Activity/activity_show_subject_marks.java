@@ -49,11 +49,18 @@ public class activity_show_subject_marks extends AppCompatActivity {
     private Toolbar toolbar;
     private NavigationView navigationView;
 
+
+    private CustomPrograssDialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_show_subject_marks);
+
+
+        // Initialize the progress dialog
+        dialog = new CustomPrograssDialog(activity_show_subject_marks.this);
 
         sessionManager = new SessionManager(this);
         drawerLayout = findViewById(R.id.showSub);
@@ -125,6 +132,7 @@ public class activity_show_subject_marks extends AppCompatActivity {
     }
 
     private void fetchMarks() {
+        dialog.show();
         //adapter.clear();
         studentList = new java.util.ArrayList<>();
         db.collection("students").document(Id)
@@ -146,6 +154,7 @@ public class activity_show_subject_marks extends AppCompatActivity {
                     recyclerView.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(this));
                     recyclerView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
+                    dialog.dismiss();
                 })
                 .addOnFailureListener(e -> Toast.makeText(this, "Error fetching marks", Toast.LENGTH_SHORT).show());
     }
