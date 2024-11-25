@@ -64,7 +64,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, channelId)
                 .setContentTitle(title)
                 .setContentText(message)
-                .setSmallIcon(R.mipmap.ic_launcher_new1_round) // Replace with your app's notification icon
+                .setSmallIcon(R.mipmap.ic_launcher) // Replace with your app's notification icon
                 .setAutoCancel(true)
                 .setContentIntent(pendingIntent);
 

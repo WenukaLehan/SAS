@@ -189,24 +189,6 @@
         app:layout_constraintTop_toBottomOf="@id/viewMarksButton"
         tools:layout_editor_absoluteX="16dp" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/attendance"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="30dp"
-            android:backgroundTint="@color/red"
-            android:text="Emergency Attendance"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            app:cornerRadius="50dp"
-            app:icon="@drawable/arrowredright"
-            app:iconGravity="end"
-            app:iconSize="25dp"
-            app:iconTint="@color/white"
-            app:layout_constraintTop_toBottomOf="@id/announcementsButton"
-            tools:layout_editor_absoluteX="16dp" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView

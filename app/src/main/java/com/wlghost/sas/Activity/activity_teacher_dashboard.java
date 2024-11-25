@@ -3,6 +3,7 @@ package com.wlghost.sas.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -18,7 +19,9 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.firestore.DocumentReference;
 import com.wlghost.sas.Helper.SessionManager;
+import com.wlghost.sas.Helper.dbCon;
 import com.wlghost.sas.R;
 
 public class activity_teacher_dashboard extends AppCompatActivity {
@@ -28,15 +31,14 @@ public class activity_teacher_dashboard extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
     private NavigationView navigationView;
+    private DocumentReference db;
+    dbCon DbCon = new dbCon();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_teacher_dashboard);
-
-
-
         drawerLayout = findViewById(R.id.main2);
         toolbar = findViewById(R.id.toolbar);
         navigationView = findViewById(R.id.nav_teacher);
@@ -46,7 +48,7 @@ public class activity_teacher_dashboard extends AppCompatActivity {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_nav, R.string.close_nav);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-
+        sessionManager = new SessionManager(getApplicationContext());
 
         // Handle Navigation Item Clicks
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -70,6 +72,7 @@ public class activity_teacher_dashboard extends AppCompatActivity {
             }
         });
 
+        db = DbCon.getDb();
         // Set the navigation view initially hidden
         drawerLayout.closeDrawer(GravityCompat.START);
 
@@ -79,7 +82,7 @@ public class activity_teacher_dashboard extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        sessionManager = new SessionManager(getApplicationContext());
+        btnDisable(sessionManager.getUserId());
 
         //when user click btnMyClass then activity_teacher_class will open
         findViewById(R.id.btnMyClass).setOnClickListener(v -> {
@@ -91,5 +94,29 @@ public class activity_teacher_dashboard extends AppCompatActivity {
             startActivity(new Intent(activity_teacher_dashboard.this, activity_mysubjects.class));
         });
 
+        findViewById(R.id.emAttendence).setOnClickListener(v -> {
+            Intent intent = new Intent(this,Teacher_Emergency_Attendance.class);
+            intent.putExtra("userId",sessionManager.getUserId());
+            startActivity(intent);
+        });
+
+
+    }
+
+    private void btnDisable(String userId) {
+        db.collection("teachers").document(userId)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        String classId = documentSnapshot.getString("classID");
+                        if (classId != null) {
+                            findViewById(R.id.btnMyClass).setEnabled(true);
+                            findViewById(R.id.btnMyClass).setAlpha(1.0f);
+                        } else {
+                            findViewById(R.id.btnMyClass).setEnabled(false);
+                            findViewById(R.id.btnMyClass).setAlpha(0.5f);
+                        }
+                    }
+                });
     }
 }
