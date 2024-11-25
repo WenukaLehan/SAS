@@ -68,7 +68,7 @@ public class activity_attendance extends AppCompatActivity {
 
         // Initialize the progress dialog
         dialog = new CustomPrograssDialog(activity_attendance.this);
-
+        sessionManager = new SessionManager(this);
 
         drawerLayout = findViewById(R.id.main6);
         toolbar = findViewById(R.id.toolbar);
@@ -113,7 +113,7 @@ public class activity_attendance extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        sessionManager = new SessionManager(this);
+
         teacherId = sessionManager.getUserId();
 
         // Inside onCreate method

@@ -58,7 +58,7 @@ public class Announcement_parent extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_announcement_parent);
-
+        sessionManager = new SessionManager(getApplicationContext());
 
         drawerLayout = findViewById(R.id.main);
         toolbar = findViewById(R.id.toolbar);

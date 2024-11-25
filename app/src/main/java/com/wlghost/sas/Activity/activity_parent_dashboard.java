@@ -44,7 +44,7 @@ public class activity_parent_dashboard extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_parent_dashboard);
-
+        sessionManager = new SessionManager(getApplicationContext());
 
         drawerLayout = findViewById(R.id.main1);
         toolbar = findViewById(R.id.toolbar);
@@ -98,7 +98,7 @@ public class activity_parent_dashboard extends AppCompatActivity {
         studentNameTextView.setText(studentName);
 
         // Initialize Session Manager
-        sessionManager = new SessionManager(getApplicationContext());
+
 
         attendanceButton = findViewById(R.id.attendanceButton);
         viewMarksButton = findViewById(R.id.viewMarksButton);

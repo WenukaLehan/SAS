@@ -31,6 +31,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.wlghost.sas.Adapter.MarksAdapter;
 import com.wlghost.sas.Domain.ClassStudentMarks;
 import com.wlghost.sas.Domain.Mark;
+import com.wlghost.sas.Helper.SessionManager;
 import com.wlghost.sas.Helper.dbCon;
 import com.wlghost.sas.R;
 
@@ -51,7 +52,7 @@ public class activity_semester extends AppCompatActivity {
     private DocumentReference db;
     private String year;
     private TextView title;
-
+private SessionManager sessionManager;
 
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
@@ -69,6 +70,7 @@ public class activity_semester extends AppCompatActivity {
         navigationView = findViewById(R.id.nav_chossem);
 
         setSupportActionBar(toolbar);
+        sessionManager = new SessionManager(getApplicationContext());
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_nav, R.string.close_nav);
         drawerLayout.addDrawerListener(toggle);

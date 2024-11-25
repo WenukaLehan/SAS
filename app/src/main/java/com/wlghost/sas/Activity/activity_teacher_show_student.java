@@ -74,11 +74,11 @@ public class activity_teacher_show_student extends AppCompatActivity {
 
         // Initialize the progress dialog
         dialog = new CustomPrograssDialog(activity_teacher_show_student.this);
-
+        sessionManager = new SessionManager(this);
 
         drawerLayout = findViewById(R.id.main);
         toolbar = findViewById(R.id.toolbar);
-        navigationView = findViewById(R.id.nav_student);
+        navigationView = findViewById(R.id.nav_student1);
 
         setSupportActionBar(toolbar);
 

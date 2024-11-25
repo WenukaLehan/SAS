@@ -37,7 +37,7 @@ public class activity_teacher_class extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_teacher_class);
 
-
+        sessionManager = new SessionManager(this);
 
         drawerLayout = findViewById(R.id.main5);
         toolbar = findViewById(R.id.toolbar);
@@ -86,14 +86,14 @@ public class activity_teacher_class extends AppCompatActivity {
         });
 
         textView = findViewById(R.id.teaccherName);
-        sessionManager = new SessionManager(this);
+
         textView1 = findViewById(R.id.emailAdd);
 
        //when user clicks backBtn then activity_teacher_class will be open
         findViewById(R.id.backBtn).setOnClickListener(v -> onBackPressed());
 
         //when user clicks attendanceButton then activity_attendance will be open
-                findViewById(R.id.attendanceButton).setOnClickListener(v -> startActivity(new Intent(this, activity_attendance.class)));
+        findViewById(R.id.attendanceButton).setOnClickListener(v -> startActivity(new Intent(this, activity_attendance.class)));
 
 
         //when user clicks viewMarksButton then activity_view_marks will be open

@@ -55,7 +55,7 @@ public class activity_show_subject_marks extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_show_subject_marks);
 
-
+        sessionManager = new SessionManager(this);
         drawerLayout = findViewById(R.id.showSub);
         toolbar = findViewById(R.id.toolbar);
         navigationView = findViewById(R.id.nav_teacchershowsubject);

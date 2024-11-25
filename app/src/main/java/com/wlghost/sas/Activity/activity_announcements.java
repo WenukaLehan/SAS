@@ -68,7 +68,7 @@ public class activity_announcements extends AppCompatActivity {
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-
+        sessionManager = new SessionManager(getApplicationContext());
         // Handle Navigation Item Clicks
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -103,7 +103,7 @@ public class activity_announcements extends AppCompatActivity {
             return insets;
         });
 
-        sessionManager = new SessionManager(getApplicationContext());
+
         db = DBCon.getDb();
         announcementText = findViewById(R.id.announcementText);
         announcementType = findViewById(R.id.announcementType);

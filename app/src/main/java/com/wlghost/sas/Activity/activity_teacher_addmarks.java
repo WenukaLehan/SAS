@@ -77,7 +77,7 @@ public class activity_teacher_addmarks extends AppCompatActivity implements OnMa
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_teacher_addmarks);
 
-
+        sessionManager = new SessionManager(this);
         drawerLayout = findViewById(R.id.main10);
         toolbar = findViewById(R.id.toolbar);
         navigationView = findViewById(R.id.nav_addmark);

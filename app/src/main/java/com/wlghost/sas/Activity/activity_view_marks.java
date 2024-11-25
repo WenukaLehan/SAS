@@ -61,7 +61,7 @@ public class activity_view_marks extends AppCompatActivity {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_nav, R.string.close_nav);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-
+        sessionManager = new SessionManager(getApplicationContext());
 
         // Handle Navigation Item Clicks
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -95,7 +95,7 @@ public class activity_view_marks extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        sessionManager = new SessionManager(getApplicationContext());
+
         mButton = findViewById(R.id.MarksViewButton);
         semesters = findViewById(R.id.semesterRadioGroup);
 

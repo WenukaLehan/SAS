@@ -67,7 +67,7 @@ public class activity_teacher_viewmarks extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_teacher_viewmarks);
-
+        sessionManager = new SessionManager(this);
         drawerLayout = findViewById(R.id.main11);
         toolbar = findViewById(R.id.toolbar);
         navigationView = findViewById(R.id.nav_teacherviewmark);
