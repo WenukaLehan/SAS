@@ -10,7 +10,7 @@
         android:layout_height="80dp"
         android:foregroundGravity="center"
         android:indeterminateTint="#E5C9D7"
-        android:background="@drawable/sb"/>
+        android:background="@drawable/lodinglogo"/>
 
 
     <TextView

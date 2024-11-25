@@ -69,7 +69,7 @@ public class activity_attendance_parent extends AppCompatActivity {
 
         drawerLayout = findViewById(R.id.main10);
         toolbar = findViewById(R.id.toolbar);
-        navigationView = findViewById(R.id.nav_atten);
+        navigationView = findViewById(R.id.nav_atend);
 
         setSupportActionBar(toolbar);
 

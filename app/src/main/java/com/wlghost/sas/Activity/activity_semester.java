@@ -58,11 +58,19 @@ private SessionManager sessionManager;
     private Toolbar toolbar;
     private NavigationView navigationView;
 
+    // Progress dialog
+    private CustomPrograssDialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_semester);
+
+
+        // Initialize the progress dialog
+        dialog = new CustomPrograssDialog(activity_semester.this);
+
 
 
         drawerLayout = findViewById(R.id.main14);
@@ -140,6 +148,8 @@ private SessionManager sessionManager;
     }
 
     private void fetchSemesterMarks(String studentId, String semester) {
+        // Show the progress dialog
+        dialog.show();
         db.collection("students").document(studentId).get()
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
@@ -161,6 +171,9 @@ private SessionManager sessionManager;
                                         }
                                     }
                                 });
+
+                                // Hide the progress dialog
+                                dialog.dismiss();
                             }
                         }
                     } else {
@@ -175,6 +188,8 @@ private SessionManager sessionManager;
 
 
     private void getMarks(String year,String semester,String subId,String id, GetMarksCallback callback) {
+        // Show the progress dialog
+        dialog.show();
         db.collection("marks").document(year).collection(semester)
                 .document(subId)
                 .collection("students")
@@ -197,11 +212,13 @@ private SessionManager sessionManager;
                             callback.onResult(0); // or handle accordingly
                         }
                     }
+
                 })
                 .addOnFailureListener(e -> {
                     Log.d(TAG, "get failed with ", e);
                     callback.onResult(0);
                     Toast.makeText(this, "adoo"+e.getMessage(), Toast.LENGTH_SHORT).show();// or handle accordingly
+                    dialog.dismiss();
                 });
     }
 

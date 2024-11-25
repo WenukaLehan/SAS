@@ -10,13 +10,15 @@
 
     <ImageView
         android:layout_width="120dp"
-        android:layout_height="100dp"
-        android:src="@drawable/logo1" />
+        android:layout_height="110dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="-19dp"
+        android:src="@drawable/navlogo" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="schoolbridge@gmail.com"
         android:textColor="@color/white"
-        android:textSize="14sp"
+        android:textSize="16sp"
         android:layout_marginBottom="20dp"/>
 </LinearLayout>

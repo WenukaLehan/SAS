@@ -190,6 +190,8 @@ public class activity_attendance extends AppCompatActivity {
                             Toast.makeText(activity_attendance.this, "Error fetching student data.", Toast.LENGTH_SHORT).show();
                             Log.e(TAG, "Error fetching student data: ", task.getException());
                         }
+                        // Hide the progress dialog
+                        dialog.dismiss();
 
                     }
 
@@ -198,8 +200,7 @@ public class activity_attendance extends AppCompatActivity {
 
 
                 .addOnFailureListener(e -> Log.e(TAG, "Error fetching students for class: ", e));
-        // Hide the progress dialog
-        dialog.dismiss();
+
     }
 
 

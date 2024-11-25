@@ -60,6 +60,9 @@ public class activity_teacher_viewmarks extends AppCompatActivity {
     private Toolbar toolbar;
     private NavigationView navigationView;
 
+    // Progress dialog
+    private CustomPrograssDialog dialog;
+
 
 
     @Override
@@ -67,6 +70,10 @@ public class activity_teacher_viewmarks extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_teacher_viewmarks);
+
+        // Initialize the progress dialog
+        dialog = new CustomPrograssDialog(activity_teacher_viewmarks.this);
+
         sessionManager = new SessionManager(this);
         drawerLayout = findViewById(R.id.main11);
         toolbar = findViewById(R.id.toolbar);
@@ -136,6 +143,7 @@ public class activity_teacher_viewmarks extends AppCompatActivity {
     }
 
     private void checkSem(){
+        dialog.show();
         db.collection("semister").document("current")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -156,6 +164,7 @@ public class activity_teacher_viewmarks extends AppCompatActivity {
                         } else {
                             Log.d(TAG, "get failed with ", task.getException());
                         }
+                        dialog.dismiss();
                     }
                 });
     }
@@ -168,6 +177,7 @@ public class activity_teacher_viewmarks extends AppCompatActivity {
     }
 
     private void getMarks(String id, activity_teacher_addmarks.GetMarksCallback callback) {
+        dialog.show();
         db.collection("marks").document(year).collection(semester)
                 .document(subId)
                 .collection("students")
@@ -189,12 +199,16 @@ public class activity_teacher_viewmarks extends AppCompatActivity {
                             Log.d(TAG, "get failed with ", task.getException());
                             callback.onResult(0); // or handle accordingly
                         }
+                        dialog.dismiss();
                     }
+
+
                 });
     }
 
     List<StudentMarks> studentList1 = new ArrayList<>();
     private void initStudents() {
+        dialog.show();
         clearRecyclerView();
 
         db.collection("students")
@@ -254,7 +268,10 @@ public class activity_teacher_viewmarks extends AppCompatActivity {
                                 });
                             }
                         }
+
                     }
+                    dialog.dismiss();
+
                 })
                 .addOnFailureListener(e -> Log.e("FirestoreError", e.getMessage()));
     }

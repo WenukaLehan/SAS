@@ -69,6 +69,10 @@ public class activity_teacher_addmarks extends AppCompatActivity implements OnMa
     private Toolbar toolbar;
     private NavigationView navigationView;
 
+    // Progress dialog
+    private CustomPrograssDialog dialog;
+
+
 
     String year;
     @Override
@@ -78,6 +82,12 @@ public class activity_teacher_addmarks extends AppCompatActivity implements OnMa
         setContentView(R.layout.activity_teacher_addmarks);
 
         sessionManager = new SessionManager(this);
+
+        // Initialize the progress dialog
+        dialog = new CustomPrograssDialog(activity_teacher_addmarks.this);
+
+
+
         drawerLayout = findViewById(R.id.main10);
         toolbar = findViewById(R.id.toolbar);
         navigationView = findViewById(R.id.nav_addmark);
@@ -170,6 +180,7 @@ public class activity_teacher_addmarks extends AppCompatActivity implements OnMa
     }
 
     private void checkSem(){
+        dialog.show();
         db.collection("semister").document("current")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -188,11 +199,14 @@ public class activity_teacher_addmarks extends AppCompatActivity implements OnMa
                          } else {
                              Log.d(TAG, "get failed with ", task.getException());
                          }
+                         dialog.dismiss();
                      }
+
                  });
     }
 
     private void clearRecyclerView() {
+
         // Ensure adapter is not null before clearing it
         if (adapter != null) {
             adapter.clear();
@@ -203,6 +217,7 @@ public class activity_teacher_addmarks extends AppCompatActivity implements OnMa
     List<StudentMarks> studentList1 = new ArrayList<>();
 
     private void initStudents() {
+        dialog.show();
         clearRecyclerView();
 
         db.collection("students")
@@ -263,6 +278,7 @@ public class activity_teacher_addmarks extends AppCompatActivity implements OnMa
                             }
                         }
                     }
+                    dialog.dismiss();
                 })
                 .addOnFailureListener(e -> Log.e("FirestoreError", e.getMessage()));
     }

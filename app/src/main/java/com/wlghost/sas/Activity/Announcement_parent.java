@@ -51,6 +51,9 @@ public class Announcement_parent extends AppCompatActivity {
     private Toolbar toolbar;
     private NavigationView navigationView;
 
+    // Progress dialog
+    private CustomPrograssDialog dialog;
+
 
 
     @Override
@@ -59,6 +62,11 @@ public class Announcement_parent extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_announcement_parent);
         sessionManager = new SessionManager(getApplicationContext());
+
+        // Initialize the progress dialog
+        dialog = new CustomPrograssDialog(Announcement_parent.this);
+
+
 
         drawerLayout = findViewById(R.id.main);
         toolbar = findViewById(R.id.toolbar);
@@ -77,7 +85,8 @@ public class Announcement_parent extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
                 if (id == R.id.nav_home) {
-                    Toast.makeText(Announcement_parent.this, "Home clicked", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(Announcement_parent.this, activity_choosechild.class);
+                    startActivity(intent);
                 } else if (id == R.id.nav_logout) {
                     if (sessionManager.isLoggedIn()) {
                         sessionManager.logoutUser();
@@ -121,6 +130,8 @@ public class Announcement_parent extends AppCompatActivity {
     }
 
     private void fetchClassIdAndAnnouncements() {
+        // Show the progress dialog
+        dialog.show();
         // Assuming `SessionManager` stores current student ID
         String studentId = new SessionManager(getApplicationContext()).getUserId();
 
@@ -137,11 +148,15 @@ public class Announcement_parent extends AppCompatActivity {
                             Toast.makeText(this, "Class ID not found for student", Toast.LENGTH_SHORT).show();
                         }
                     }
+                    // Hide the progress dialog
+                    dialog.dismiss();
                 })
                 .addOnFailureListener(e -> Toast.makeText(this, "Failed to fetch class ID", Toast.LENGTH_SHORT).show());
     }
 
     private void loadAnnouncements(String classId) {
+        // Show the progress dialog
+        dialog.show();
         // Query announcements specific to the student's class ID
         DocumentReference schoolDoc = dbConnection.getDefaultSchoolDocument();
 
@@ -155,6 +170,8 @@ public class Announcement_parent extends AppCompatActivity {
                     } else {
                         Toast.makeText(this, "No announcements found", Toast.LENGTH_SHORT).show();
                     }
+                    // Hide the progress dialog
+                    dialog.dismiss();
                 })
                 .addOnFailureListener(e -> Toast.makeText(this, "Failed to load announcements", Toast.LENGTH_SHORT).show());
 
